@@ -54,7 +54,7 @@ test.group('Collection', (group) => {
     const duplicates = await client.get('/collection?duplicates=1').loginAs(user).withInertia()
     const [duplicate] = (duplicates.inertiaProps as any).cards.data
     assert.equal((duplicates.inertiaProps as any).cards.metadata.total, 1)
-    assert.equal(duplicate.copies, 2)
+    assert.strictEqual(duplicate.copies, 2)
 
     for (const sort of ['rarity', 'title', 'recent']) {
       const sorted = await client.get(`/collection?sort=${sort}`).loginAs(user).withInertia()

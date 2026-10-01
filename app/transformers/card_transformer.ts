@@ -20,7 +20,10 @@ export default class CardTransformer extends BaseTransformer<Card> {
       /**
        * Copies owned by the current player, when loaded with `withCount`.
        */
-      copies: this.resource.$extras.copies_count as number | undefined,
+      copies:
+        this.resource.$extras.copies_count === undefined
+          ? undefined
+          : Number(this.resource.$extras.copies_count),
       isFavorite: this.resource.$extras.is_favorite as boolean | undefined,
       /**
        * The current player's tags, when preloaded scoped to them.

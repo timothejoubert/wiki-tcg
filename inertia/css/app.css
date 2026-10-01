@@ -1286,23 +1286,6 @@ input {
   text-align: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .card-grid--reveal > li {
-    animation: card-reveal 480ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
-    animation-delay: calc(var(--i) * 140ms);
-  }
-}
-@keyframes card-reveal {
-  from {
-    opacity: 0;
-    transform: translateY(16px) rotateY(80deg);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
 /* Booster panel --------------------------------------------------------- */
 
 .booster-panel {
@@ -1558,6 +1541,7 @@ input {
 /* Wallet --------------------------------------------------------------- */
 
 .header__balance {
+  white-space: nowrap;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -2051,5 +2035,264 @@ input {
   }
   .subnav__item {
     flex: none;
+  }
+}
+
+/* Booster reveal -------------------------------------------------------- */
+
+.reveal-stage {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  padding: 24px 0 40px;
+}
+.reveal-stage__hint {
+  text-align: center;
+  font-size: 13.5px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+.booster-pack {
+  position: relative;
+  width: min(240px, 70vw);
+  aspect-ratio: 3 / 4.4;
+  padding: 0;
+  border-radius: 14px;
+  cursor: pointer;
+  animation: pack-float 3s ease-in-out infinite;
+}
+.booster-pack:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 6px;
+}
+.booster-pack__strip,
+.booster-pack__body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: var(--pearl);
+  box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.7);
+}
+.booster-pack__strip {
+  top: 0;
+  height: 12%;
+  border-radius: 14px 14px 0 0;
+  background-image: linear-gradient(transparent 70%, rgba(7, 7, 13, 0.25)), var(--pearl);
+  transition:
+    transform 450ms cubic-bezier(0.5, 0, 0.75, 0),
+    opacity 450ms ease;
+}
+.booster-pack__body {
+  top: 11%;
+  bottom: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 6px;
+  border-radius: 0 0 14px 14px;
+  overflow: hidden;
+  color: var(--card-ink);
+  transition:
+    transform 500ms 150ms cubic-bezier(0.5, 0, 0.75, 0),
+    opacity 500ms 150ms ease;
+}
+.booster-pack__brand {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 28px;
+}
+.booster-pack__count {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.booster-pack__grain {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -35deg,
+    rgba(255, 255, 255, 0.5) 0 1px,
+    transparent 1px 3px
+  );
+  mix-blend-mode: overlay;
+  opacity: 0.4;
+}
+.booster-pack.is-tearing {
+  animation: none;
+}
+.booster-pack.is-tearing .booster-pack__strip {
+  transform: translate(40%, -140%) rotate(18deg);
+  opacity: 0;
+}
+.booster-pack.is-tearing .booster-pack__body {
+  transform: translateY(30%) scale(0.92);
+  opacity: 0;
+}
+@keyframes pack-float {
+  50% {
+    transform: translateY(-6px) rotate(-1deg);
+  }
+}
+
+.card-back {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  border: 2px solid transparent;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 50% 40%, #1a1a2b, #07070d) padding-box,
+    var(--pearl-edge) border-box;
+}
+.card-back__mark {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 56px;
+  background: var(--pearl);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.reveal-slot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  perspective: 1000px;
+  animation: slot-in 420ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(var(--i) * 90ms);
+}
+.reveal-slot__hit {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: 14px;
+  cursor: pointer;
+}
+.reveal-slot__hit:disabled {
+  cursor: default;
+}
+.reveal-slot__hit:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
+.flip {
+  flex: 1;
+  display: grid;
+  transform-style: preserve-3d;
+  transition: transform 650ms cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+.reveal-slot.is-flipped .flip {
+  transform: rotateY(180deg);
+}
+.flip__face {
+  grid-area: 1 / 1;
+  backface-visibility: hidden;
+}
+.flip__front {
+  transform: rotateY(180deg);
+}
+.reveal-slot.is-next .flip__back {
+  animation: next-card 1.2s ease-in-out infinite;
+}
+.reveal-slot.is-next .card-back {
+  box-shadow: 0 0 0 2px var(--ink);
+}
+.reveal-slot__label {
+  position: absolute;
+  left: 50%;
+  top: 38%;
+  z-index: 4;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--card-ink);
+  color: var(--slot-color, #fff);
+  font-weight: 700;
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+  animation: label-pop 1.4s ease forwards;
+  pointer-events: none;
+}
+.reveal-slot--rare {
+  --slot-color: var(--rarity-rare);
+}
+.reveal-slot--super_rare {
+  --slot-color: var(--rarity-super_rare);
+}
+.reveal-slot--legendary {
+  --slot-color: var(--rarity-legendary);
+}
+.reveal-slot.is-burst::before {
+  content: '';
+  position: absolute;
+  inset: -30%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--slot-color) 0, transparent 65%);
+  animation: burst 1.4s ease-out forwards;
+}
+.reveal-slot--legendary.is-burst::before {
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0, transparent 30%), var(--pearl);
+  mask: radial-gradient(circle, #000 20%, transparent 68%);
+}
+@keyframes slot-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+  }
+}
+@keyframes next-card {
+  50% {
+    transform: translateY(-4px);
+  }
+}
+@keyframes burst {
+  from {
+    opacity: 0.9;
+    transform: scale(0.4);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.3);
+  }
+}
+@keyframes label-pop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -30%) scale(0.6);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+  80% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -60%) scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .booster-pack,
+  .reveal-slot,
+  .reveal-slot.is-next .flip__back {
+    animation: none;
+  }
+  .flip,
+  .booster-pack__strip,
+  .booster-pack__body {
+    transition: none;
+  }
+}
+@media (max-width: 420px) {
+  .logo__name {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
   }
 }

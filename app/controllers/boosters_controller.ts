@@ -33,7 +33,7 @@ export default class BoostersController {
   async store({ auth, response, session }: HttpContext, boosters: BoosterService) {
     try {
       const opening = await boosters.open(auth.getUserOrFail())
-      return response.redirect().toRoute('boosters.show', { id: opening.id })
+      return response.redirect().withQs({ reveal: 1 }).toRoute('boosters.show', { id: opening.id })
     } catch (error) {
       if (error instanceof NoBoosterAvailableError) {
         session.flash('error', error.message)
@@ -49,7 +49,7 @@ export default class BoostersController {
     }
   }
 
-  async show({ inertia, auth, params }: HttpContext) {
+  async show({ inertia, auth, params, request }: HttpContext) {
     const user = auth.getUserOrFail()
     const opening = await BoosterOpening.query()
       .where('id', params.id)
@@ -62,6 +62,7 @@ export default class BoostersController {
       .firstOrFail()
 
     return inertia.render('boosters/show', {
+      reveal: request.qs().reveal === '1',
       openedAt: opening.openedAt.toISO()!,
       cards: CardTransformer.transform(opening.cards.map((copy) => copy.card)),
     })

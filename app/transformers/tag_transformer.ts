@@ -8,7 +8,10 @@ export default class TagTransformer extends BaseTransformer<Tag> {
       /**
        * Owned cards carrying the tag, when loaded with `withCount`.
        */
-      cards: this.resource.$extras.cards_count as number | undefined,
+      cards:
+        this.resource.$extras.cards_count === undefined
+          ? undefined
+          : Number(this.resource.$extras.cards_count),
     }
   }
 }

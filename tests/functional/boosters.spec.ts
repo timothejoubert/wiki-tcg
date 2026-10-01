@@ -36,7 +36,7 @@ test.group('Boosters', (group) => {
 
     const response = await client.post('/boosters').loginAs(user).withCsrfToken().redirects(0)
     response.assertStatus(302)
-    assert.match(response.header('location') ?? '', /^\/boosters\/\d+$/)
+    assert.match(response.header('location') ?? '', /^\/boosters\/\d+\?reveal=1$/)
 
     await user.refresh()
     assert.equal(user.boosterStock, 2)
@@ -182,12 +182,15 @@ test.group('Boosters', (group) => {
     assert.lengthOf(await UserCard.query().where('user_id', user.id), 5)
   })
 
-  test('only the owner can see a booster opening', async ({ client }) => {
+  test('only the owner can see a booster opening', async ({ client, assert }) => {
     const [alice, bob] = [await createUser(), await createUser()]
     const opening = await openBooster(alice)
 
     const own = await client.get(`/boosters/${opening.id}`).loginAs(alice).withInertia()
     own.assertInertiaComponent('boosters/show')
+    const shown = (own.inertiaProps as any).cards
+    assert.strictEqual(shown[0].copies, 1)
+    assert.isFalse((own.inertiaProps as any).reveal)
 
     const other = await client.get(`/boosters/${opening.id}`).loginAs(bob).withInertia()
     other.assertStatus(404)
