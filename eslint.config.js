@@ -1,0 +1,17 @@
+import { configApp } from '@adonisjs/eslint-config'
+import { vue } from '@adonisjs/eslint-config/vue'
+
+export default configApp(
+  ...vue,
+  {
+    name: 'generated files',
+    ignores: ['database/schema.ts'],
+  },
+  {
+    name: 'inertia-vue ts overrides',
+    files: ['inertia/**/*.ts'],
+    rules: {
+      'vue/component-api-style': 'off',
+    },
+  }
+)
