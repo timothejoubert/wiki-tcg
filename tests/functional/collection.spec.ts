@@ -47,7 +47,9 @@ test.group('Collection', (group) => {
     all.assertInertiaComponent('collection')
     const props = all.inertiaProps as any
     assert.equal(props.cards.metadata.total, 9)
-    assert.deepEqual(props.totals, { common: 8, super_rare: 1 })
+    assert.equal(props.progression.byRarity.common.cards, 8)
+    assert.equal(props.progression.byRarity.super_rare.cards, 1)
+    assert.equal(props.progression.byRarity.super_rare.copies, 2)
 
     const duplicates = await client.get('/collection?duplicates=1').loginAs(user).withInertia()
     const [duplicate] = (duplicates.inertiaProps as any).cards.data

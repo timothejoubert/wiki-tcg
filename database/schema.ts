@@ -19,6 +19,30 @@ export class BoosterOpeningSchema extends BaseModel {
   declare userId: number
 }
 
+export class CardFavoriteSchema extends BaseModel {
+  static $columns = ['cardId', 'createdAt', 'id', 'userId'] as const
+  $columns = CardFavoriteSchema.$columns
+  @column()
+  declare cardId: number
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare userId: number
+}
+
+export class CardTagSchema extends BaseModel {
+  static $columns = ['cardId', 'id', 'tagId'] as const
+  $columns = CardTagSchema.$columns
+  @column()
+  declare cardId: number
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare tagId: number
+}
+
 export class CardSchema extends BaseModel {
   static $columns = ['avgDailyViews', 'createdAt', 'description', 'id', 'lang', 'lengthBytes', 'qualityLabel', 'rarity', 'snapshotAt', 'thumbnailUrl', 'title', 'updatedAt', 'wikiPageId', 'wikiRevisionId'] as const
   $columns = CardSchema.$columns
@@ -63,8 +87,23 @@ export class RateLimitSchema extends BaseModel {
   declare points: number
 }
 
+export class TagSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'name', 'updatedAt', 'userId'] as const
+  $columns = TagSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userId: number
+}
+
 export class UserCardSchema extends BaseModel {
-  static $columns = ['boosterOpeningId', 'cardId', 'id', 'isFavorite', 'obtainedAt', 'userId'] as const
+  static $columns = ['boosterOpeningId', 'cardId', 'id', 'obtainedAt', 'userId'] as const
   $columns = UserCardSchema.$columns
   @column()
   declare boosterOpeningId: number | null
@@ -72,8 +111,6 @@ export class UserCardSchema extends BaseModel {
   declare cardId: number
   @column({ isPrimary: true })
   declare id: number
-  @column()
-  declare isFavorite: boolean
   @column.dateTime()
   declare obtainedAt: DateTime
   @column()

@@ -128,7 +128,6 @@ export default class BoosterService {
           userId: user.id,
           cardId: 'card' in pick ? pick.card.id : saved.get(pick.article.pageId)!.id,
           boosterOpeningId: opening.id,
-          isFavorite: false,
           obtainedAt: now,
         })),
         { client: trx }

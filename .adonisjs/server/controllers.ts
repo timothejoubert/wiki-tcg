@@ -7,6 +7,8 @@ export const controllers = {
   Boosters: () => import('#controllers/boosters_controller'),
   Cards: () => import('#controllers/cards_controller'),
   Collection: () => import('#controllers/collection_controller'),
+  Favorites: () => import('#controllers/favorites_controller'),
   NewAccount: () => import('#controllers/new_account_controller'),
   Session: () => import('#controllers/session_controller'),
+  Tags: () => import('#controllers/tags_controller'),
 }

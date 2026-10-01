@@ -1,16 +1,20 @@
 import BoosterOpening from '#models/booster_opening'
 import CardTransformer from '#transformers/card_transformer'
+import CollectionService from '#services/collection_service'
 import BoosterService, { NoBoosterAvailableError, stockOf } from '#services/booster_service'
 import { WikipediaUnavailableError } from '#services/wikipedia_client'
 import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class BoostersController {
-  async index({ inertia, auth }: HttpContext) {
-    const stock = stockOf(auth.getUserOrFail())
+  @inject()
+  async index({ inertia, auth }: HttpContext, collection: CollectionService) {
+    const user = auth.getUserOrFail()
+    const stock = stockOf(user)
 
     return inertia.render('dashboard', {
       stock: { ...stock, nextRefillAt: stock.nextRefillAt?.toISO() ?? null },
+      recent: CardTransformer.transform(await collection.recent(user)),
     })
   }
 

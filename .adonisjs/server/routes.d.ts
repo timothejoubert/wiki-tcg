@@ -16,6 +16,11 @@ export type ScannedRoutes = {
     'boosters.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection': { paramsTuple?: []; params?: {} }
     'cards.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'cards.favorite': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'cards.tags.attach': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'cards.tags.detach': { paramsTuple: [ParamValue,ParamValue]; params: {'id': ParamValue,'tagId': ParamValue} }
+    'tags.store': { paramsTuple?: []; params?: {} }
+    'tags.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'session.destroy': { paramsTuple?: []; params?: {} }
   }
   GET: {
@@ -44,7 +49,14 @@ export type ScannedRoutes = {
     'new_account.store': { paramsTuple?: []; params?: {} }
     'session.store': { paramsTuple?: []; params?: {} }
     'boosters.store': { paramsTuple?: []; params?: {} }
+    'cards.favorite': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'cards.tags.attach': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'tags.store': { paramsTuple?: []; params?: {} }
     'session.destroy': { paramsTuple?: []; params?: {} }
+  }
+  DELETE: {
+    'cards.tags.detach': { paramsTuple: [ParamValue,ParamValue]; params: {'id': ParamValue,'tagId': ParamValue} }
+    'tags.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
 }
 declare module '@adonisjs/core/types/http' {

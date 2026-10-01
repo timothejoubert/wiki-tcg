@@ -3,11 +3,14 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { router } from '@inertiajs/vue3'
 import { Form, Link } from '@adonisjs/inertia/vue'
 import { Package } from 'lucide-vue-next'
+import type { Data } from '@generated/data'
 import Page from '~/components/page.vue'
+import CardItem from '~/components/card_item.vue'
 import AppLayout from '~/layouts/app.vue'
 
 const props = defineProps<{
   stock: { available: number; max: number; nextRefillAt: string | null }
+  recent: Data.Card[]
 }>()
 
 const now = ref(Date.now())
@@ -62,6 +65,13 @@ onBeforeUnmount(() => clearInterval(ticker))
         <p class="booster-panel__foot">
           <Link route="collection" class="il">Voir ma collection</Link>
         </p>
+      </section>
+
+      <section v-if="recent.length" class="recent" aria-labelledby="recent-title">
+        <h2 id="recent-title" class="recent__title">Dernières cartes obtenues</h2>
+        <ul class="card-grid">
+          <li v-for="card in recent" :key="card.id"><CardItem :card="card" /></li>
+        </ul>
       </section>
     </Page>
   </AppLayout>

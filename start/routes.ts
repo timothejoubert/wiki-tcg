@@ -40,6 +40,25 @@ router
       .get('/cards/:id', [controllers.Cards, 'show'])
       .as('cards.show')
       .where('id', router.matchers.number())
+    router
+      .post('/cards/:id/favorite', [controllers.Favorites, 'toggle'])
+      .as('cards.favorite')
+      .where('id', router.matchers.number())
+    router
+      .post('/cards/:id/tags', [controllers.Tags, 'attach'])
+      .as('cards.tags.attach')
+      .where('id', router.matchers.number())
+    router
+      .delete('/cards/:id/tags/:tagId', [controllers.Tags, 'detach'])
+      .as('cards.tags.detach')
+      .where('id', router.matchers.number())
+      .where('tagId', router.matchers.number())
+
+    router.post('/tags', [controllers.Tags, 'store']).as('tags.store')
+    router
+      .delete('/tags/:id', [controllers.Tags, 'destroy'])
+      .as('tags.destroy')
+      .where('id', router.matchers.number())
 
     router.post('logout', [controllers.Session, 'destroy'])
   })

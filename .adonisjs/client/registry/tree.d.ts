@@ -24,5 +24,14 @@ export interface ApiDefinition {
   collection: typeof routes['collection']
   cards: {
     show: typeof routes['cards.show']
+    favorite: typeof routes['cards.favorite']
+    tags: {
+      attach: typeof routes['cards.tags.attach']
+      detach: typeof routes['cards.tags.detach']
+    }
+  }
+  tags: {
+    store: typeof routes['tags.store']
+    destroy: typeof routes['tags.destroy']
   }
 }

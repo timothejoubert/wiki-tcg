@@ -78,6 +78,36 @@ const routes = {
     tokens: [{"old":"/cards/:id","type":0,"val":"cards","end":""},{"old":"/cards/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['cards.show']['types'],
   },
+  'cards.favorite': {
+    methods: ["POST"],
+    pattern: '/cards/:id/favorite',
+    tokens: [{"old":"/cards/:id/favorite","type":0,"val":"cards","end":""},{"old":"/cards/:id/favorite","type":1,"val":"id","end":""},{"old":"/cards/:id/favorite","type":0,"val":"favorite","end":""}],
+    types: placeholder as Registry['cards.favorite']['types'],
+  },
+  'cards.tags.attach': {
+    methods: ["POST"],
+    pattern: '/cards/:id/tags',
+    tokens: [{"old":"/cards/:id/tags","type":0,"val":"cards","end":""},{"old":"/cards/:id/tags","type":1,"val":"id","end":""},{"old":"/cards/:id/tags","type":0,"val":"tags","end":""}],
+    types: placeholder as Registry['cards.tags.attach']['types'],
+  },
+  'cards.tags.detach': {
+    methods: ["DELETE"],
+    pattern: '/cards/:id/tags/:tagId',
+    tokens: [{"old":"/cards/:id/tags/:tagId","type":0,"val":"cards","end":""},{"old":"/cards/:id/tags/:tagId","type":1,"val":"id","end":""},{"old":"/cards/:id/tags/:tagId","type":0,"val":"tags","end":""},{"old":"/cards/:id/tags/:tagId","type":1,"val":"tagId","end":""}],
+    types: placeholder as Registry['cards.tags.detach']['types'],
+  },
+  'tags.store': {
+    methods: ["POST"],
+    pattern: '/tags',
+    tokens: [{"old":"/tags","type":0,"val":"tags","end":""}],
+    types: placeholder as Registry['tags.store']['types'],
+  },
+  'tags.destroy': {
+    methods: ["DELETE"],
+    pattern: '/tags/:id',
+    tokens: [{"old":"/tags/:id","type":0,"val":"tags","end":""},{"old":"/tags/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['tags.destroy']['types'],
+  },
   'session.destroy': {
     methods: ["POST"],
     pattern: '/logout',

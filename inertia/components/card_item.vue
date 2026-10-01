@@ -4,6 +4,7 @@
  * by color alone.
  */
 import type { Data } from '@generated/data'
+import { Star } from 'lucide-vue-next'
 import { Link } from '@adonisjs/inertia/vue'
 import { rarityLabels, rarityShort } from '~/lib/game'
 
@@ -33,6 +34,11 @@ withDefaults(defineProps<{ card: Data.Card; link?: boolean }>(), { link: true })
         <span class="visually-hidden">{{ rarityLabels[card.rarity] }}</span>
       </span>
     </footer>
+
+    <span v-if="card.isFavorite" class="tcg-card__favorite" title="Favori">
+      <Star :size="14" fill="currentColor" aria-hidden="true" />
+      <span class="visually-hidden">Favori</span>
+    </span>
 
     <span v-if="card.copies && card.copies > 1" class="tcg-card__copies">
       ×{{ card.copies }}<span class="visually-hidden"> exemplaires</span>

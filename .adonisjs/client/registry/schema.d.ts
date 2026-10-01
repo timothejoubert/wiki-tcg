@@ -151,6 +151,66 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/cards_controller').default['show']>>>
     }
   }
+  'cards.favorite': {
+    methods: ["POST"]
+    pattern: '/cards/:id/favorite'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/favorites_controller').default['toggle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/favorites_controller').default['toggle']>>>
+    }
+  }
+  'cards.tags.attach': {
+    methods: ["POST"]
+    pattern: '/cards/:id/tags'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/tag').attachTagValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/tag').attachTagValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/tags_controller').default['attach']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/tags_controller').default['attach']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'cards.tags.detach': {
+    methods: ["DELETE"]
+    pattern: '/cards/:id/tags/:tagId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue, ParamValue]
+      params: { id: ParamValue; tagId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/tags_controller').default['detach']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/tags_controller').default['detach']>>>
+    }
+  }
+  'tags.store': {
+    methods: ["POST"]
+    pattern: '/tags'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/tag').createTagValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/tag').createTagValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/tags_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/tags_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'tags.destroy': {
+    methods: ["DELETE"]
+    pattern: '/tags/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/tags_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/tags_controller').default['destroy']>>>
+    }
+  }
   'session.destroy': {
     methods: ["POST"]
     pattern: '/logout'
