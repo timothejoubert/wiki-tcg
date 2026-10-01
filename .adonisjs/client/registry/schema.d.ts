@@ -355,6 +355,54 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/trades_controller').default['cancel']>>>
     }
   }
+  'players.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/joueurs'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/players_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/players_controller').default['index']>>>
+    }
+  }
+  'players.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/joueurs/:username'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { username: ParamValue }
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/collection').collectionFiltersValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/players_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/players_controller').default['show']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'settings': {
+    methods: ["GET","HEAD"]
+    pattern: '/reglages'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/settings_controller').default['edit']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/settings_controller').default['edit']>>>
+    }
+  }
+  'settings.update': {
+    methods: ["PUT"]
+    pattern: '/reglages'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/settings_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/settings_controller').default['update']>>>
+    }
+  }
   'tags.store': {
     methods: ["POST"]
     pattern: '/tags'

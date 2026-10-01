@@ -1,5 +1,14 @@
 <script setup lang="ts">
-import { ArrowLeftRight, Coins, Gavel, Library, LogOut, Package } from 'lucide-vue-next'
+import {
+  ArrowLeftRight,
+  Coins,
+  Gavel,
+  Library,
+  LogOut,
+  Package,
+  Settings,
+  Users,
+} from 'lucide-vue-next'
 import { usePage } from '@inertiajs/vue3'
 import { Form, Link } from '@adonisjs/inertia/vue'
 import { formatWikis } from '~/lib/game'
@@ -17,6 +26,7 @@ const nav: NavItem[] = [
   { label: 'Collection', route: 'collection', icon: Library },
   { label: 'Enchères', route: 'auctions.index', icon: Gavel },
   { label: 'Échanges', route: 'trades.index', icon: ArrowLeftRight },
+  { label: 'Joueurs', route: 'players.index', icon: Users },
 ]
 
 const page = usePage()
@@ -32,7 +42,16 @@ const page = usePage()
             <Coins :size="15" aria-hidden="true" />
             <span class="visually-hidden">Solde : </span>{{ formatWikis(page.props.user.balance) }}
           </Link>
-          <span class="header__user">{{ page.props.user.username }}</span>
+          <Link
+            route="players.show"
+            :params="{ username: page.props.user.username }"
+            class="header__user"
+          >
+            {{ page.props.user.username }}
+          </Link>
+          <Link route="settings" class="iconbtn" aria-label="Réglages">
+            <Settings :size="16" aria-hidden="true" />
+          </Link>
         </template>
         <ThemeToggle />
         <Form route="session.destroy">

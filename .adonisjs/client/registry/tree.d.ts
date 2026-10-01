@@ -48,6 +48,13 @@ export interface ApiDefinition {
     decline: typeof routes['trades.decline']
     cancel: typeof routes['trades.cancel']
   }
+  players: {
+    index: typeof routes['players.index']
+    show: typeof routes['players.show']
+  }
+  settings: typeof routes['settings'] & {
+    update: typeof routes['settings.update']
+  }
   tags: {
     store: typeof routes['tags.store']
     destroy: typeof routes['tags.destroy']

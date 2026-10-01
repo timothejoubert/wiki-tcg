@@ -180,6 +180,30 @@ const routes = {
     tokens: [{"old":"/trades/:id/cancel","type":0,"val":"trades","end":""},{"old":"/trades/:id/cancel","type":1,"val":"id","end":""},{"old":"/trades/:id/cancel","type":0,"val":"cancel","end":""}],
     types: placeholder as Registry['trades.cancel']['types'],
   },
+  'players.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/joueurs',
+    tokens: [{"old":"/joueurs","type":0,"val":"joueurs","end":""}],
+    types: placeholder as Registry['players.index']['types'],
+  },
+  'players.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/joueurs/:username',
+    tokens: [{"old":"/joueurs/:username","type":0,"val":"joueurs","end":""},{"old":"/joueurs/:username","type":1,"val":"username","end":""}],
+    types: placeholder as Registry['players.show']['types'],
+  },
+  'settings': {
+    methods: ["GET","HEAD"],
+    pattern: '/reglages',
+    tokens: [{"old":"/reglages","type":0,"val":"reglages","end":""}],
+    types: placeholder as Registry['settings']['types'],
+  },
+  'settings.update': {
+    methods: ["PUT"],
+    pattern: '/reglages',
+    tokens: [{"old":"/reglages","type":0,"val":"reglages","end":""}],
+    types: placeholder as Registry['settings.update']['types'],
+  },
   'tags.store': {
     methods: ["POST"],
     pattern: '/tags',

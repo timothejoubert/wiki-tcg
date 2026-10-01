@@ -35,23 +35,29 @@ function likePattern(search: string) {
  * tags, plus the progression counters.
  */
 export default class CollectionService {
-  async list(user: User, filters: CollectionFilters) {
+  /**
+   * `personal` adds the owner's favorites and tags: only for their own view.
+   */
+  async list(user: User, filters: CollectionFilters, { personal = true } = {}) {
     const ownedBy = (query: any) => query.where('user_id', user.id)
 
     const query = Card.query()
       .select('cards.*')
-      .select(
-        db.raw(
-          'exists(select 1 from card_favorites f where f.card_id = cards.id and f.user_id = ?) as is_favorite',
-          [user.id]
-        )
-      )
       .whereHas('copies', ownedBy)
       .withCount('copies', ownedBy)
       .withAggregate('copies', (copies) =>
         ownedBy(copies).max('obtained_at').as('last_obtained_at')
       )
-      .preload('tags', (tags) => tags.where('tags.user_id', user.id).orderBy('name'))
+    if (personal) {
+      query
+        .select(
+          db.raw(
+            'exists(select 1 from card_favorites f where f.card_id = cards.id and f.user_id = ?) as is_favorite',
+            [user.id]
+          )
+        )
+        .preload('tags', (tags) => tags.where('tags.user_id', user.id).orderBy('name'))
+    }
 
     if (filters.rarity) {
       query.where('rarity', filters.rarity)
@@ -59,7 +65,7 @@ export default class CollectionService {
     if (filters.duplicates) {
       query.whereHas('copies', ownedBy, '>', 1)
     }
-    if (filters.favorites) {
+    if (filters.favorites && personal) {
       query.whereExists((sub) =>
         sub
           .from('card_favorites')
@@ -67,7 +73,7 @@ export default class CollectionService {
           .where('card_favorites.user_id', user.id)
       )
     }
-    if (filters.tag) {
+    if (filters.tag && personal) {
       query.whereHas('tags', (tags) =>
         tags.where('tags.id', filters.tag!).where('tags.user_id', user.id)
       )
@@ -150,6 +156,25 @@ export default class CollectionService {
         )
       )
       .orderBy('name')
+  }
+
+  /**
+   * Other players with a public collection holding the card.
+   */
+  async publicOwners(cardId: number, exceptUserId: number, limit = 12) {
+    const rows: { username: string; copies: string }[] = await db
+      .from('user_cards')
+      .join('users', 'users.id', 'user_cards.user_id')
+      .where('user_cards.card_id', cardId)
+      .where('users.collection_public', true)
+      .whereNot('users.id', exceptUserId)
+      .groupBy('users.id', 'users.username')
+      .select('users.username')
+      .count('user_cards.id as copies')
+      .orderBy('copies', 'desc')
+      .orderBy('users.username')
+      .limit(limit)
+    return rows.map((row) => ({ username: row.username, copies: Number(row.copies) }))
   }
 
   async owns(user: User, cardId: number) {

@@ -33,6 +33,10 @@ export type ScannedRoutes = {
     'trades.accept': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'trades.decline': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'trades.cancel': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'players.index': { paramsTuple?: []; params?: {} }
+    'players.show': { paramsTuple: [ParamValue]; params: {'username': ParamValue} }
+    'settings': { paramsTuple?: []; params?: {} }
+    'settings.update': { paramsTuple?: []; params?: {} }
     'tags.store': { paramsTuple?: []; params?: {} }
     'tags.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'session.destroy': { paramsTuple?: []; params?: {} }
@@ -52,6 +56,9 @@ export type ScannedRoutes = {
     'auctions.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'trades.index': { paramsTuple?: []; params?: {} }
     'trades.create': { paramsTuple?: []; params?: {} }
+    'players.index': { paramsTuple?: []; params?: {} }
+    'players.show': { paramsTuple: [ParamValue]; params: {'username': ParamValue} }
+    'settings': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
     'home': { paramsTuple?: []; params?: {} }
@@ -68,6 +75,9 @@ export type ScannedRoutes = {
     'auctions.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'trades.index': { paramsTuple?: []; params?: {} }
     'trades.create': { paramsTuple?: []; params?: {} }
+    'players.index': { paramsTuple?: []; params?: {} }
+    'players.show': { paramsTuple: [ParamValue]; params: {'username': ParamValue} }
+    'settings': { paramsTuple?: []; params?: {} }
   }
   POST: {
     'new_account.store': { paramsTuple?: []; params?: {} }
@@ -90,6 +100,9 @@ export type ScannedRoutes = {
   DELETE: {
     'cards.tags.detach': { paramsTuple: [ParamValue,ParamValue]; params: {'id': ParamValue,'tagId': ParamValue} }
     'tags.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+  }
+  PUT: {
+    'settings.update': { paramsTuple?: []; params?: {} }
   }
 }
 declare module '@adonisjs/core/types/http' {

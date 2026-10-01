@@ -15,6 +15,7 @@ const props = defineProps<{
   freeCopies: number
   openAuctionIds: number[]
   auctionRules: { minStartingPrice: number; durationsHours: number[] }
+  owners: { username: string; copies: number }[]
 }>()
 
 const durationLabel = (hours: number) => (hours % 24 === 0 ? `${hours / 24} j` : `${hours} h`)
@@ -210,6 +211,22 @@ const available = computed(() => {
               </button>
               <span v-if="errors.name" id="name-error" class="field__error">{{ errors.name }}</span>
             </Form>
+          </section>
+
+          <section class="card-owners" aria-labelledby="owners-title">
+            <h2 id="owners-title" class="card-tags__title">Ils la possèdent</h2>
+            <ul v-if="owners.length" class="card-owners__list">
+              <li v-for="owner in owners" :key="owner.username">
+                <Link route="players.show" :params="{ username: owner.username }" class="il">
+                  {{ owner.username }}
+                </Link>
+                <span v-if="owner.copies > 1" class="tag-chip__count">×{{ owner.copies }}</span>
+                <Link route="trades.create" :qs="{ to: owner.username }" class="card-owners__trade">
+                  Proposer un échange
+                </Link>
+              </li>
+            </ul>
+            <p v-else class="card-tags__empty">Aucun autre joueur ne la montre pour l'instant.</p>
           </section>
 
           <p class="card-detail__source">

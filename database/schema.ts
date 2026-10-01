@@ -200,7 +200,7 @@ export class UserCardSchema extends BaseModel {
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = ['adultConfirmedAt', 'balance', 'boosterRefilledAt', 'boosterStock', 'createdAt', 'dailyBonusClaimedOn', 'email', 'id', 'password', 'updatedAt', 'username'] as const
+  static $columns = ['adultConfirmedAt', 'balance', 'boosterRefilledAt', 'boosterStock', 'collectionPublic', 'createdAt', 'dailyBonusClaimedOn', 'email', 'id', 'password', 'updatedAt', 'username'] as const
   $columns = UserSchema.$columns
   @column.dateTime()
   declare adultConfirmedAt: DateTime
@@ -210,6 +210,8 @@ export class UserSchema extends BaseModel {
   declare boosterRefilledAt: DateTime
   @column()
   declare boosterStock: number
+  @column()
+  declare collectionPublic: boolean
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column.date()

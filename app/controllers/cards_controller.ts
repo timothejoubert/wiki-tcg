@@ -40,6 +40,7 @@ export default class CardsController {
       tags: TagTransformer.transform(await collection.tags(user)),
       salePrice: gameConfig.economy.bankSale[card.rarity],
       freeCopies: Number(free.$extras.total),
+      owners: await collection.publicOwners(card.id, user.id),
       openAuctionIds: openAuctions.map((auction) => auction.id),
       auctionRules: {
         minStartingPrice: gameConfig.economy.auctions.minStartingPrice,

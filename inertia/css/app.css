@@ -1683,3 +1683,51 @@ input {
   gap: 8px;
   justify-items: start;
 }
+
+/* Social --------------------------------------------------------------- */
+
+.player-list {
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+.player-list__item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--card);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r);
+}
+.player-list__meta {
+  flex: 1;
+  font-size: 13px;
+  color: var(--muted);
+}
+.card-owners {
+  margin-top: 24px;
+}
+.card-owners__list {
+  list-style: none;
+  display: grid;
+  gap: 6px;
+  font-size: 13.5px;
+}
+.card-owners__list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-owners__trade {
+  margin-left: auto;
+  font-size: 12.5px;
+  color: var(--muted);
+  text-decoration: underline;
+}
+.settings-form {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}

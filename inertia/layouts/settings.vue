@@ -12,13 +12,13 @@ import NavLink, { type NavItem } from '~/components/nav_link.vue'
  *
  * `<AppLayout><SettingsLayout>…</SettingsLayout></AppLayout>`
  */
-const items: NavItem[] = []
+const items: NavItem[] = [{ label: 'Confidentialité', route: 'settings' }]
 </script>
 
 <template>
-  <Page title="Settings" description="Manage your account settings and preferences.">
+  <Page title="Réglages" description="Gère ton compte et ce que les autres joueurs voient.">
     <div class="sidebar-layout">
-      <nav class="sidebar-layout__nav" aria-label="Settings">
+      <nav class="sidebar-layout__nav" aria-label="Réglages">
         <NavLink
           v-for="item in items"
           :key="item.label"

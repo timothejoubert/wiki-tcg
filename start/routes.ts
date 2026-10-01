@@ -86,6 +86,11 @@ router
         .where('id', router.matchers.number())
     }
 
+    router.get('/joueurs', [controllers.Players, 'index']).as('players.index')
+    router.get('/joueurs/:username', [controllers.Players, 'show']).as('players.show')
+    router.get('/reglages', [controllers.Settings, 'edit']).as('settings')
+    router.put('/reglages', [controllers.Settings, 'update']).as('settings.update')
+
     router.post('/tags', [controllers.Tags, 'store']).as('tags.store')
     router
       .delete('/tags/:id', [controllers.Tags, 'destroy'])
