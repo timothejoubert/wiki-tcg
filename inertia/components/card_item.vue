@@ -5,10 +5,13 @@
  */
 import type { Data } from '@generated/data'
 import { Star } from 'lucide-vue-next'
-import { Link } from '@adonisjs/inertia/vue'
+import { Form, Link } from '@adonisjs/inertia/vue'
 import { rarityLabels, rarityShort } from '~/lib/game'
 
-withDefaults(defineProps<{ card: Data.Card; link?: boolean }>(), { link: true })
+withDefaults(defineProps<{ card: Data.Card; link?: boolean; favoriteToggle?: boolean }>(), {
+  link: true,
+  favoriteToggle: false,
+})
 </script>
 
 <template>
@@ -35,7 +38,30 @@ withDefaults(defineProps<{ card: Data.Card; link?: boolean }>(), { link: true })
       </span>
     </footer>
 
-    <span v-if="card.isFavorite" class="tcg-card__favorite" title="Favori">
+    <Form
+      v-if="favoriteToggle"
+      v-slot="{ processing }"
+      route="cards.favorite"
+      :params="{ id: card.id }"
+      :options="{ preserveScroll: true, preserveState: true }"
+      class="tcg-card__favorite-form"
+    >
+      <button
+        type="submit"
+        class="tcg-card__favorite tcg-card__favorite--toggle"
+        :class="{ 'is-on': card.isFavorite }"
+        :aria-pressed="card.isFavorite ? 'true' : 'false'"
+        :aria-label="
+          card.isFavorite
+            ? `Retirer ${card.title} des favoris`
+            : `Ajouter ${card.title} aux favoris`
+        "
+        :disabled="processing"
+      >
+        <Star :size="14" :fill="card.isFavorite ? 'currentColor' : 'none'" aria-hidden="true" />
+      </button>
+    </Form>
+    <span v-else-if="card.isFavorite" class="tcg-card__favorite" title="Favori">
       <Star :size="14" fill="currentColor" aria-hidden="true" />
       <span class="visually-hidden">Favori</span>
     </span>

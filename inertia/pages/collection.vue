@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { onBeforeUnmount, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import type { Data } from '@generated/data'
 import { router } from '@inertiajs/vue3'
 import { Form, Link } from '@adonisjs/inertia/vue'
-import { X } from 'lucide-vue-next'
+import { Pencil, X } from 'lucide-vue-next'
 import Page from '~/components/page.vue'
 import CardItem from '~/components/card_item.vue'
 import ProgressionBand from '~/components/progression_band.vue'
@@ -54,6 +54,23 @@ watch(search, (value) => {
   debounce = setTimeout(() => update({ q: value.trim() || undefined }), 300)
 })
 onBeforeUnmount(() => clearTimeout(debounce))
+
+const selecting = ref(false)
+const selected = ref<number[]>([])
+const bulkTag = ref<number | ''>('')
+const allOnPage = computed(() => props.cards.data.map((card) => card.id))
+const allSelected = computed(
+  () => allOnPage.value.length > 0 && allOnPage.value.every((id) => selected.value.includes(id))
+)
+function toggleAll() {
+  selected.value = allSelected.value ? [] : [...allOnPage.value]
+}
+function stopSelecting() {
+  selecting.value = false
+  selected.value = []
+}
+
+const renaming = ref<number | null>(null)
 
 const hasFilters = () =>
   Boolean(
@@ -164,8 +181,93 @@ const hasFilters = () =>
         </button>
       </p>
 
+      <div v-if="cards.data.length" class="bulk-bar">
+        <button
+          v-if="!selecting"
+          type="button"
+          class="btn btn--secondary btn--sm"
+          @click="selecting = true"
+        >
+          Sélectionner
+        </button>
+        <template v-else>
+          <label class="filters__check">
+            <input type="checkbox" :checked="allSelected" @change="toggleAll" />
+            Toute la page
+          </label>
+          <span class="bulk-bar__count" aria-live="polite"
+            >{{ selected.length }} sélectionnée(s)</span
+          >
+
+          <Form
+            v-slot="{ processing }"
+            route="collection.bulk"
+            class="bulk-bar__actions"
+            :options="{ preserveScroll: true }"
+            @success="stopSelecting"
+          >
+            <input v-for="id in selected" :key="id" type="hidden" name="cardIds[]" :value="id" />
+            <button
+              type="submit"
+              name="action"
+              value="favorite"
+              class="btn btn--secondary btn--sm"
+              :disabled="processing || !selected.length"
+            >
+              Favoris
+            </button>
+            <button
+              type="submit"
+              name="action"
+              value="unfavorite"
+              class="btn btn--secondary btn--sm"
+              :disabled="processing || !selected.length"
+            >
+              Retirer des favoris
+            </button>
+            <template v-if="tags.length">
+              <label class="visually-hidden" for="bulk-tag">Tag</label>
+              <select
+                id="bulk-tag"
+                v-model="bulkTag"
+                name="tagId"
+                class="field__input bulk-bar__tag"
+              >
+                <option value="">Choisir un tag</option>
+                <option v-for="tag in tags" :key="tag.id" :value="tag.id">{{ tag.name }}</option>
+              </select>
+              <button
+                type="submit"
+                name="action"
+                value="tag"
+                class="btn btn--secondary btn--sm"
+                :disabled="processing || !selected.length || !bulkTag"
+              >
+                Taguer
+              </button>
+              <button
+                type="submit"
+                name="action"
+                value="untag"
+                class="btn btn--secondary btn--sm"
+                :disabled="processing || !selected.length || !bulkTag"
+              >
+                Retirer le tag
+              </button>
+            </template>
+          </Form>
+          <button type="button" class="il" @click="stopSelecting">Terminer</button>
+        </template>
+      </div>
+
       <ul v-if="cards.data.length" class="card-grid">
-        <li v-for="card in cards.data" :key="card.id"><CardItem :card="card" /></li>
+        <li v-for="card in cards.data" :key="card.id" :class="{ 'is-selecting': selecting }">
+          <label v-if="selecting" class="card-select">
+            <input v-model="selected" type="checkbox" :value="card.id" />
+            <span class="visually-hidden">Sélectionner {{ card.title }}</span>
+          </label>
+          <CardItem :card="card" :favorite-toggle="!selecting" :link="!selecting" />
+        </li>
       </ul>
       <div v-else class="empty">
         <template v-if="hasFilters()">
@@ -204,9 +306,43 @@ const hasFilters = () =>
         <h2 id="tags-title" class="tag-manager__title">Mes tags</h2>
         <ul class="tag-list">
           <li v-for="tag in tags" :key="tag.id" class="tag-chip">
-            <span
-              >{{ tag.name }} <span class="tag-chip__count">{{ tag.cards ?? 0 }}</span></span
+            <Form
+              v-if="renaming === tag.id"
+              v-slot="{ processing, errors }"
+              route="tags.update"
+              :params="{ id: tag.id }"
+              :options="{ preserveScroll: true }"
+              class="tag-chip__rename"
+              @success="renaming = null"
             >
+              <label class="visually-hidden" :for="`rename-${tag.id}`">Nouveau nom</label>
+              <input
+                :id="`rename-${tag.id}`"
+                name="name"
+                class="field__input"
+                :value="tag.name"
+                maxlength="30"
+                required
+                :aria-invalid="errors.name ? 'true' : 'false'"
+              />
+              <button type="submit" class="btn btn--secondary btn--sm" :disabled="processing">
+                OK
+              </button>
+              <span v-if="errors.name" class="field__error">{{ errors.name }}</span>
+            </Form>
+            <template v-else>
+              <span
+                >{{ tag.name }} <span class="tag-chip__count">{{ tag.cards ?? 0 }}</span></span
+              >
+              <button
+                type="button"
+                class="tag-chip__remove"
+                :aria-label="`Renommer le tag ${tag.name}`"
+                @click="renaming = tag.id"
+              >
+                <Pencil :size="12" aria-hidden="true" />
+              </button>
+            </template>
             <Form route="tags.destroy" :params="{ id: tag.id }" :options="{ preserveScroll: true }">
               <button
                 type="submit"

@@ -93,6 +93,11 @@ router
 
     router.post('/tags', [controllers.Tags, 'store']).as('tags.store')
     router
+      .patch('/tags/:id', [controllers.Tags, 'update'])
+      .as('tags.update')
+      .where('id', router.matchers.number())
+    router.post('/collection/bulk', [controllers.Collection, 'bulk']).as('collection.bulk')
+    router
       .delete('/tags/:id', [controllers.Tags, 'destroy'])
       .as('tags.destroy')
       .where('id', router.matchers.number())

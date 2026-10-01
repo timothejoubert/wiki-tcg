@@ -210,6 +210,18 @@ const routes = {
     tokens: [{"old":"/tags","type":0,"val":"tags","end":""}],
     types: placeholder as Registry['tags.store']['types'],
   },
+  'tags.update': {
+    methods: ["PATCH"],
+    pattern: '/tags/:id',
+    tokens: [{"old":"/tags/:id","type":0,"val":"tags","end":""},{"old":"/tags/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['tags.update']['types'],
+  },
+  'collection.bulk': {
+    methods: ["POST"],
+    pattern: '/collection/bulk',
+    tokens: [{"old":"/collection/bulk","type":0,"val":"collection","end":""},{"old":"/collection/bulk","type":0,"val":"bulk","end":""}],
+    types: placeholder as Registry['collection.bulk']['types'],
+  },
   'tags.destroy': {
     methods: ["DELETE"],
     pattern: '/tags/:id',

@@ -38,6 +38,8 @@ export type ScannedRoutes = {
     'settings': { paramsTuple?: []; params?: {} }
     'settings.update': { paramsTuple?: []; params?: {} }
     'tags.store': { paramsTuple?: []; params?: {} }
+    'tags.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'collection.bulk': { paramsTuple?: []; params?: {} }
     'tags.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'session.destroy': { paramsTuple?: []; params?: {} }
   }
@@ -95,6 +97,7 @@ export type ScannedRoutes = {
     'trades.decline': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'trades.cancel': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'tags.store': { paramsTuple?: []; params?: {} }
+    'collection.bulk': { paramsTuple?: []; params?: {} }
     'session.destroy': { paramsTuple?: []; params?: {} }
   }
   DELETE: {
@@ -103,6 +106,9 @@ export type ScannedRoutes = {
   }
   PUT: {
     'settings.update': { paramsTuple?: []; params?: {} }
+  }
+  PATCH: {
+    'tags.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
 }
 declare module '@adonisjs/core/types/http' {

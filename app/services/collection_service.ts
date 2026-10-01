@@ -177,6 +177,46 @@ export default class CollectionService {
     return rows.map((row) => ({ username: row.username, copies: Number(row.copies) }))
   }
 
+  /**
+   * Applies one action to many cards; cards the player does not own are
+   * ignored. Returns how many cards were touched.
+   */
+  async bulk(
+    user: User,
+    cardIds: number[],
+    action: 'favorite' | 'unfavorite' | 'tag' | 'untag',
+    tagId?: number
+  ) {
+    const owned = await UserCard.query()
+      .where('user_id', user.id)
+      .whereIn('card_id', cardIds)
+      .distinct('card_id')
+    const ids = owned.map((copy) => copy.cardId)
+    if (ids.length === 0) {
+      return 0
+    }
+
+    if (action === 'favorite') {
+      await db
+        .table('card_favorites')
+        .insert(
+          ids.map((cardId) => ({ user_id: user.id, card_id: cardId, created_at: new Date() }))
+        )
+        .onConflict(['user_id', 'card_id'])
+        .ignore()
+    } else if (action === 'unfavorite') {
+      await db.from('card_favorites').where('user_id', user.id).whereIn('card_id', ids).delete()
+    } else {
+      const tag = await Tag.query().where('id', tagId!).where('user_id', user.id).firstOrFail()
+      if (action === 'tag') {
+        await tag.related('cards').sync(ids, false)
+      } else {
+        await tag.related('cards').detach(ids)
+      }
+    }
+    return ids.length
+  }
+
   async owns(user: User, cardId: number) {
     const copy = await UserCard.query().where({ userId: user.id, cardId }).first()
     return copy !== null

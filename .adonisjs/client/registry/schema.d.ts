@@ -415,6 +415,30 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/tags_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'tags.update': {
+    methods: ["PATCH"]
+    pattern: '/tags/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/tag').renameTagValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/tag').renameTagValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/tags_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/tags_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'collection.bulk': {
+    methods: ["POST"]
+    pattern: '/collection/bulk'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/tag').bulkValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/tag').bulkValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/collection_controller').default['bulk']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collection_controller').default['bulk']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'tags.destroy': {
     methods: ["DELETE"]
     pattern: '/tags/:id'

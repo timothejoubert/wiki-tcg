@@ -23,7 +23,9 @@ export interface ApiDefinition {
     show: typeof routes['boosters.show']
   }
   wallet: typeof routes['wallet']
-  collection: typeof routes['collection']
+  collection: typeof routes['collection'] & {
+    bulk: typeof routes['collection.bulk']
+  }
   cards: {
     show: typeof routes['cards.show']
     favorite: typeof routes['cards.favorite']
@@ -57,6 +59,7 @@ export interface ApiDefinition {
   }
   tags: {
     store: typeof routes['tags.store']
+    update: typeof routes['tags.update']
     destroy: typeof routes['tags.destroy']
   }
 }

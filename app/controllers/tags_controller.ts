@@ -1,6 +1,6 @@
 import Tag from '#models/tag'
 import CollectionService from '#services/collection_service'
-import { attachTagValidator, createTagValidator } from '#validators/tag'
+import { attachTagValidator, createTagValidator, renameTagValidator } from '#validators/tag'
 import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
 
@@ -22,6 +22,18 @@ export default class TagsController {
     if (cardId) {
       await tag.related('cards').attach([cardId])
     }
+
+    return response.redirect().back()
+  }
+
+  async update({ auth, params, request, response }: HttpContext) {
+    const user = auth.getUserOrFail()
+    const tag = await Tag.query().where('id', params.id).where('user_id', user.id).firstOrFail()
+    const { name } = await request.validateUsing(renameTagValidator, {
+      meta: { userId: user.id, tagId: tag.id },
+    })
+    tag.name = name
+    await tag.save()
 
     return response.redirect().back()
   }
