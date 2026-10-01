@@ -5,7 +5,7 @@
  */
 import type { Data } from '@generated/data'
 import { Link } from '@adonisjs/inertia/vue'
-import { formatNumber, rarityLabels, rarityShort } from '~/lib/game'
+import { rarityLabels, rarityShort } from '~/lib/game'
 
 withDefaults(defineProps<{ card: Data.Card; link?: boolean }>(), { link: true })
 </script>
@@ -32,16 +32,6 @@ withDefaults(defineProps<{ card: Data.Card; link?: boolean }>(), { link: true })
         <abbr :title="rarityLabels[card.rarity]">{{ rarityShort[card.rarity] }}</abbr>
         <span class="visually-hidden">{{ rarityLabels[card.rarity] }}</span>
       </span>
-      <dl class="tcg-card__stats">
-        <div>
-          <dt>ATK</dt>
-          <dd>{{ formatNumber(card.attack) }}</dd>
-        </div>
-        <div>
-          <dt>DEF</dt>
-          <dd>{{ formatNumber(card.defense) }}</dd>
-        </div>
-      </dl>
     </footer>
 
     <span v-if="card.copies && card.copies > 1" class="tcg-card__copies">

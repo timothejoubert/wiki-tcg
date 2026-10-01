@@ -7,7 +7,6 @@ import gameConfig from '#config/game'
 import CardsHarvest from '#commands/cards_harvest'
 import WikipediaClient from '#services/wikipedia_client'
 import FakeWikipediaClient, { article } from '#tests/helpers/fake_wikipedia_client'
-import { catalogueCard } from '#tests/helpers/catalogue'
 
 test.group('cards:harvest', (group) => {
   let wikipedia: FakeWikipediaClient
@@ -36,22 +35,6 @@ test.group('cards:harvest', (group) => {
     const cards = await Card.all()
     assert.lengthOf(cards, 1)
     assert.equal(cards[0].rarity, 'legendary')
-  })
-
-  test('skips unscored articles and repairs frozen ones', async ({ assert }) => {
-    const frozen = await catalogueCard('legendary', { qualityScore: null, defense: 0 })
-    wikipedia.topTitles = ['Paris']
-    wikipedia.byTitle.set('Paris', article({ pageId: 1, title: 'Paris', avgDailyViews: 8000 }))
-    wikipedia.qualityScores.set(10, null)
-    wikipedia.qualityScores.set(frozen.wikiRevisionId, 0.75)
-
-    const command = await ace.create(CardsHarvest, ['--top'])
-    await command.exec()
-    command.assertSucceeded()
-
-    assert.isNull(await Card.findBy('wikiPageId', 1))
-    await frozen.refresh()
-    assert.equal(frozen.defense, 6_000)
   })
 
   test('sifts random batches and keeps existing cards frozen', async ({ assert }) => {

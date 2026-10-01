@@ -19,10 +19,7 @@ export function catalogueCard(rarity: Rarity, overrides: Partial<Card> = {}) {
     avgDailyViews: 0,
     lengthBytes: 1000,
     qualityLabel: null,
-    qualityScore: 0.5,
     rarity,
-    attack: 1000,
-    defense: 1000,
     snapshotAt: DateTime.now(),
     ...overrides,
   })

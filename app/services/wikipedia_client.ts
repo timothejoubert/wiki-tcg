@@ -1,7 +1,6 @@
 import env from '#start/env'
 import type { DateTime } from 'luxon'
 import { setTimeout } from 'node:timers/promises'
-import logger from '@adonisjs/core/services/logger'
 import gameConfig, { type QualityLabel } from '#config/game'
 import { averageDailyViews } from '#services/card_stats'
 
@@ -51,8 +50,8 @@ const { wikipedia } = gameConfig
 const qualityCategories: Record<string, QualityLabel> = wikipedia.qualityCategories
 
 /**
- * Thin client over the MediaWiki Action API and the Wikimedia Lift Wing
- * inference API. Bound in the container so tests can swap it.
+ * Thin client over the MediaWiki Action API and the Wikimedia pageviews
+ * API. Bound in the container so tests can swap it.
  */
 export default class WikipediaClient {
   protected lang = wikipedia.lang
@@ -101,23 +100,6 @@ export default class WikipediaClient {
     )
 
     return (data.items?.[0]?.articles ?? []).map((entry) => entry.article.replaceAll('_', ' '))
-  }
-
-  /**
-   * Language-agnostic quality score (0..1) of a revision, or null when the
-   * model is unreachable: a card can still be drawn without it.
-   */
-  async qualityScore(revisionId: number): Promise<number | null> {
-    try {
-      const data = await this.request<{ score?: number }>(
-        'https://api.wikimedia.org/service/lw/inference/v1/models/articlequality:predict',
-        { body: { rev_id: revisionId, lang: this.lang } }
-      )
-      return typeof data.score === 'number' ? data.score : null
-    } catch (error) {
-      logger.warn({ err: error, revisionId }, 'Lift Wing quality score unavailable')
-      return null
-    }
   }
 
   protected async queryArticles(params: Record<string, string>): Promise<WikiArticle[]> {

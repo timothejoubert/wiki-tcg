@@ -16,11 +16,10 @@ import MarketingLayout from '~/layouts/marketing.vue'
           2,7 millions de la Wikipédia francophone.
         </p>
 
-        <ul class="rules">
-          <li><strong>Rareté</strong> : le nombre de lecteurs de l'article.</li>
-          <li><strong>Attaque</strong> : la longueur de son contenu.</li>
-          <li><strong>Défense</strong> : sa qualité.</li>
-        </ul>
+        <p class="pc-para">
+          Plus un article est lu, plus sa carte est rare : de la Commune à la Légende, réservée aux
+          pages les plus consultées.
+        </p>
 
         <p>
           <Link route="new_account.create" class="btn btn--primary">Commencer ma collection</Link>

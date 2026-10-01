@@ -98,7 +98,7 @@ export default class BoosterService {
         !chosen.has(article.pageId) &&
         isAtLeast(rarityFor(article.avgDailyViews), gameConfig.harvest.minRarity)
     )
-    const attributes = await this.cards.prepare([
+    const attributes = this.cards.prepare([
       ...picks.flatMap((pick) => ('article' in pick ? [pick.article] : [])),
       ...extras,
     ])

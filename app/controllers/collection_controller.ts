@@ -33,10 +33,6 @@ export default class CollectionController {
       case 'rarity':
         query.orderByRaw(`array_position(?::text[], rarity::text) desc`, [RARITIES as any])
         break
-      case 'attack':
-      case 'defense':
-        query.orderBy(filters.sort!, 'desc')
-        break
       default:
         query.orderBy('last_obtained_at', 'desc')
     }

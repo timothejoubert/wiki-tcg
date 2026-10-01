@@ -5,23 +5,20 @@ import gameConfig, { RARITIES, type Rarity } from '#config/game'
 import Card from '#models/card'
 import RarityRoller, { rarityFallbacks } from '#services/rarity_roller'
 import WikipediaClient, { type WikiArticle } from '#services/wikipedia_client'
-import { attackFor, defenseFor, rarityFor } from '#services/card_stats'
+import { rarityFor } from '#services/card_stats'
 
 /**
  * Samples random articles to check how the thresholds of `config/game.ts`
- * spread rarities and stats, or with `--boosters` simulates openings against
+ * spread rarities, or with `--boosters` simulates openings against
  * the current catalogue. Nothing is written to the database.
  */
 export default class CardsCalibrate extends BaseCommand {
   static commandName = 'cards:calibrate'
-  static description = 'Sample random Wikipedia articles and print the rarity and stats spread'
+  static description = 'Sample random Wikipedia articles and print the rarity spread'
   static options: CommandOptions = { startApp: true }
 
   @flags.number({ description: 'Number of articles to sample', default: 200 })
   declare samples: number
-
-  @flags.boolean({ description: 'Also fetch Lift Wing quality scores (one call per article)' })
-  declare quality: boolean
 
   @flags.number({ description: 'Simulate N booster openings on the catalogue instead' })
   declare boosters: number | undefined
@@ -44,26 +41,7 @@ export default class CardsCalibrate extends BaseCommand {
       await setTimeout(1000)
     }
 
-    const sample = [...articles.values()].slice(0, this.samples)
-    const scores = new Map<number, number | null>()
-    if (this.quality) {
-      for (const article of sample.filter((a) => !a.qualityLabel)) {
-        scores.set(article.pageId, await wikipedia.qualityScore(article.revisionId))
-        await setTimeout(200)
-      }
-    }
-
-    this.printRarities(sample)
-    this.printStats(
-      'Attack',
-      sample.map((a) => attackFor(a.lengthBytes))
-    )
-    if (this.quality) {
-      this.printStats(
-        'Defense',
-        sample.map((a) => defenseFor(a.qualityLabel, scores.get(a.pageId) ?? null))
-      )
-    }
+    this.printRarities([...articles.values()].slice(0, this.samples))
   }
 
   /**
@@ -116,16 +94,5 @@ export default class CardsCalibrate extends BaseCommand {
       ])
     }
     table.render()
-  }
-
-  protected printStats(label: string, values: number[]) {
-    const sorted = [...values].sort((a, b) => a - b)
-    const at = (ratio: number) => String(sorted[Math.floor(ratio * (sorted.length - 1))])
-
-    this.ui
-      .table()
-      .head([label, 'min', 'p25', 'median', 'p75', 'p95', 'max'])
-      .row(['', at(0), at(0.25), at(0.5), at(0.75), at(0.95), at(1)])
-      .render()
   }
 }

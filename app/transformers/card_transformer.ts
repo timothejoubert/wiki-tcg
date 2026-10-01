@@ -11,8 +11,6 @@ export default class CardTransformer extends BaseTransformer<Card> {
         'thumbnailUrl',
         'wikipediaUrl',
         'rarity',
-        'attack',
-        'defense',
         'qualityLabel',
         'avgDailyViews',
         'lengthBytes',

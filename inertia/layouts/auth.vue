@@ -28,8 +28,8 @@ defineProps<{ title: string }>()
       <div>
         <div class="pitch__t">Comment ça marche ?</div>
         <p class="pitch__p">
-          Un booster de 5 cartes toutes les 10 minutes. La rareté dépend du nombre de lecteurs,
-          l'attaque de la longueur de l'article, la défense de sa qualité.
+          Un booster de 5 cartes toutes les 10 minutes. Plus un article est lu, plus sa carte est
+          rare.
         </p>
       </div>
     </aside>

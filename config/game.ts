@@ -37,22 +37,6 @@ const gameConfig = {
     { rarity: 'uncommon', minDailyViews: 2 },
   ] satisfies { rarity: Rarity; minDailyViews: number }[],
 
-  stats: {
-    max: 10_000,
-    /**
-     * Attack grows with the article length on a log scale, reaching the max
-     * at `attackMaxBytes` (Paris is ~450 kB).
-     */
-    attackMinBytes: 500,
-    attackMaxBytes: 300_000,
-    /**
-     * Defense for labelled articles; others scale the Lift Wing quality
-     * score (0..1) up to `defenseUnlabelledMax`.
-     */
-    defenseByLabel: { featured: 10_000, good: 8_000 } satisfies Record<QualityLabel, number>,
-    defenseUnlabelledMax: 8_000,
-  },
-
   boosters: {
     /**
      * Boosters granted on signup, so new players can open right away.

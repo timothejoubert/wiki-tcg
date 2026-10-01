@@ -9,11 +9,6 @@ import { isAtLeast } from '#services/rarity_roller'
 import WikipediaClient, { type WikiArticle } from '#services/wikipedia_client'
 
 /**
- * Parallel Lift Wing calls, kept low to stay under Wikimedia rate limits.
- */
-const QUALITY_CONCURRENCY = 4
-
-/**
  * Grows the catalogue with high rarity cards, which random live draws almost
  * never surface: `--top` imports the most viewed articles (legendaries),
  * `--random` sifts random batches for rare and super rare articles.
@@ -59,7 +54,7 @@ export default class CardsHarvest extends BaseCommand {
       const kept = articles.filter((article) =>
         isAtLeast(rarityFor(article.avgDailyViews), this.minRarity as Rarity)
       )
-      for (const card of await factory.persist(kept, QUALITY_CONCURRENCY)) {
+      for (const card of await factory.persist(kept)) {
         if (card.$isLocal) {
           created.set(card.id, card.rarity)
         }
@@ -86,11 +81,6 @@ export default class CardsHarvest extends BaseCommand {
       await keep(await wikipedia.randomArticles())
       this.logger.info(`random batch ${batch}/${this.random}`)
       await setTimeout(gameConfig.harvest.pauseMs)
-    }
-
-    const repaired = await factory.repairMissingQuality()
-    if (repaired) {
-      this.logger.info(`${repaired} cards without quality score repaired`)
     }
 
     const byRarity = [...RARITIES]

@@ -1083,19 +1083,6 @@ input {
 .tcg-card__rarity abbr {
   text-decoration: none;
 }
-.tcg-card__stats {
-  display: flex;
-  gap: 12px;
-  font-family: var(--mono);
-  font-size: 12.5px;
-}
-.tcg-card__stats div {
-  display: flex;
-  gap: 4px;
-}
-.tcg-card__stats dt {
-  color: var(--muted);
-}
 .tcg-card__copies {
   position: absolute;
   top: 8px;

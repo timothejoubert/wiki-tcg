@@ -11,7 +11,6 @@ export default class FakeWikipediaClient extends WikipediaClient {
   calls = 0
   failing = false
   articles: WikiArticle[] | null = null
-  qualityScores = new Map<number, number | null>()
   topTitles: string[] = []
   byTitle = new Map<string, WikiArticle>()
 
@@ -36,10 +35,6 @@ export default class FakeWikipediaClient extends WikipediaClient {
 
   async topArticles() {
     return this.topTitles
-  }
-
-  async qualityScore(revisionId: number) {
-    return this.qualityScores.has(revisionId) ? this.qualityScores.get(revisionId)! : 0.5
   }
 }
 

@@ -20,16 +20,12 @@ export class BoosterOpeningSchema extends BaseModel {
 }
 
 export class CardSchema extends BaseModel {
-  static $columns = ['attack', 'avgDailyViews', 'createdAt', 'defense', 'description', 'id', 'lang', 'lengthBytes', 'qualityLabel', 'qualityScore', 'rarity', 'snapshotAt', 'thumbnailUrl', 'title', 'updatedAt', 'wikiPageId', 'wikiRevisionId'] as const
+  static $columns = ['avgDailyViews', 'createdAt', 'description', 'id', 'lang', 'lengthBytes', 'qualityLabel', 'rarity', 'snapshotAt', 'thumbnailUrl', 'title', 'updatedAt', 'wikiPageId', 'wikiRevisionId'] as const
   $columns = CardSchema.$columns
-  @column()
-  declare attack: number
   @column()
   declare avgDailyViews: number
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
-  @column()
-  declare defense: number
   @column()
   declare description: string | null
   @column({ isPrimary: true })
@@ -40,8 +36,6 @@ export class CardSchema extends BaseModel {
   declare lengthBytes: number
   @column()
   declare qualityLabel: QualityLabel | null
-  @column()
-  declare qualityScore: number | null
   @column()
   declare rarity: Rarity
   @column.dateTime()

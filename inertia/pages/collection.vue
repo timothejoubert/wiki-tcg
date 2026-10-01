@@ -19,8 +19,6 @@ const props = defineProps<{
 const sorts = [
   { value: 'recent', label: 'Plus récentes' },
   { value: 'rarity', label: 'Rareté' },
-  { value: 'attack', label: 'Attaque' },
-  { value: 'defense', label: 'Défense' },
   { value: 'title', label: 'Titre' },
 ]
 

@@ -43,7 +43,7 @@ test.group('Boosters', (group) => {
     assert.lengthOf(await UserCard.query().where('user_id', user.id), 5)
   })
 
-  test('computes rarity and stats from the article', async ({ assert }) => {
+  test('computes the rarity from the article audience', async ({ assert }) => {
     const user = await createUser()
     wikipedia.articles = [
       article({ pageId: 1, avgDailyViews: 12_000, qualityLabel: 'featured', lengthBytes: 300_000 }),
@@ -52,20 +52,16 @@ test.group('Boosters', (group) => {
       article({ pageId: 4 }),
       article({ pageId: 5 }),
     ]
-    wikipedia.qualityScores.set(20, 0.25)
     roller.boosters = [['common', 'common', 'rare', 'super_rare', 'legendary']]
 
     await openBooster(user)
 
     const featured = await Card.findByOrFail('wikiPageId', 1)
     assert.equal(featured.rarity, 'legendary')
-    assert.equal(featured.attack, 10_000)
-    assert.equal(featured.defense, 10_000)
-    assert.isNull(featured.qualityScore)
+    assert.equal(featured.qualityLabel, 'featured')
 
     const scored = await Card.findByOrFail('wikiPageId', 2)
     assert.equal(scored.rarity, 'rare')
-    assert.equal(scored.defense, 2_000)
 
     const popular = await Card.findByOrFail('wikiPageId', 3)
     assert.equal(popular.rarity, 'super_rare')
