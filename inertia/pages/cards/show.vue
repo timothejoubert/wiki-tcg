@@ -6,9 +6,9 @@ import { Star, X } from 'lucide-vue-next'
 import Page from '~/components/page.vue'
 import CardItem from '~/components/card_item.vue'
 import AppLayout from '~/layouts/app.vue'
-import { formatNumber, rarityLabels } from '~/lib/game'
+import { formatNumber, formatWikis, rarityLabels } from '~/lib/game'
 
-const props = defineProps<{ card: Data.Card; tags: Data.Tag[] }>()
+const props = defineProps<{ card: Data.Card; tags: Data.Tag[]; salePrice: number }>()
 
 const qualityLabels = { featured: 'Article de qualité', good: 'Bon article' } as const
 const owned = computed(() => (props.card.copies ?? 0) > 0)
@@ -48,6 +48,19 @@ const available = computed(() => {
                 aria-hidden="true"
               />
               {{ card.isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris' }}
+            </button>
+          </Form>
+
+          <Form
+            v-if="(card.copies ?? 0) > 1"
+            v-slot="{ processing }"
+            route="cards.sell"
+            :params="{ id: card.id }"
+            :options="{ preserveScroll: true }"
+            class="card-detail__sell"
+          >
+            <button type="submit" class="btn btn--secondary btn--sm" :disabled="processing">
+              Revendre un doublon · +{{ formatWikis(salePrice) }}
             </button>
           </Form>
 

@@ -5,12 +5,16 @@ import { Form, Link } from '@adonisjs/inertia/vue'
 import { Package } from 'lucide-vue-next'
 import type { Data } from '@generated/data'
 import Page from '~/components/page.vue'
+import { formatWikis } from '~/lib/game'
 import CardItem from '~/components/card_item.vue'
 import AppLayout from '~/layouts/app.vue'
 
 const props = defineProps<{
   stock: { available: number; max: number; nextRefillAt: string | null }
   recent: Data.Card[]
+  dailyBonus: number | null
+  balance: number
+  boosterPrice: number
 }>()
 
 const now = ref(Date.now())
@@ -39,6 +43,10 @@ onBeforeUnmount(() => clearInterval(ticker))
 <template>
   <AppLayout>
     <Page title="Boosters" description="Un booster de 5 cartes tiré au hasard dans Wikipédia.">
+      <p v-if="dailyBonus" class="daily-bonus" role="status">
+        Bonus quotidien : <strong>+{{ formatWikis(dailyBonus) }}</strong>
+      </p>
+
       <section class="booster-panel" aria-labelledby="stock-title">
         <div class="booster-panel__mark" aria-hidden="true"><Package :size="28" /></div>
         <h2 id="stock-title" class="booster-panel__count">
@@ -60,6 +68,24 @@ onBeforeUnmount(() => clearInterval(ticker))
           >
             {{ processing ? 'Tirage en cours…' : 'Ouvrir un booster' }}
           </button>
+        </Form>
+
+        <Form
+          v-if="stock.available < 1"
+          v-slot="{ processing }"
+          route="boosters.buy"
+          class="booster-panel__buy"
+        >
+          <button
+            type="submit"
+            class="btn btn--secondary"
+            :disabled="processing || balance < boosterPrice"
+          >
+            Acheter un booster · {{ formatWikis(boosterPrice) }}
+          </button>
+          <p v-if="balance < boosterPrice" class="booster-panel__hint">
+            Il te manque {{ formatWikis(boosterPrice - balance) }}.
+          </p>
         </Form>
 
         <p class="booster-panel__foot">

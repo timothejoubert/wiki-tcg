@@ -6,6 +6,8 @@ import Card from '#models/card'
 import User from '#models/user'
 import UserCard from '#models/user_card'
 import BoosterOpening from '#models/booster_opening'
+import WalletService from '#services/wallet_service'
+import { refilledStock, stockOf } from '#services/booster_stock'
 import gameConfig, { type Rarity } from '#config/game'
 import logger from '@adonisjs/core/services/logger'
 import CardFactory from '#services/card_factory'
@@ -16,51 +18,10 @@ import WikipediaClient, {
 } from '#services/wikipedia_client'
 import { rarityFor } from '#services/card_stats'
 
-const { boosters } = gameConfig
-const refillEvery = { minutes: boosters.refillEveryMinutes }
-
-export type BoosterStock = {
-  available: number
-  max: number
-  nextRefillAt: DateTime | null
-}
-
 export class NoBoosterAvailableError extends Exception {
   static status = 422
   static code = 'E_NO_BOOSTER_AVAILABLE'
   static message = 'Aucun booster disponible pour le moment.'
-}
-
-/**
- * Boosters refill lazily: the stored stock is only brought up to date when
- * it is read or spent, so no scheduler is needed.
- */
-export function refilledStock(
-  user: Pick<User, 'boosterStock' | 'boosterRefilledAt'>,
-  now: DateTime
-) {
-  const intervalMs = boosters.refillEveryMinutes * 60_000
-  const elapsed = Math.max(0, now.toMillis() - user.boosterRefilledAt.toMillis())
-  const accrued = Math.floor(elapsed / intervalMs)
-
-  if (user.boosterStock + accrued >= boosters.maxStock) {
-    return { stock: Math.max(user.boosterStock, boosters.maxStock), refilledAt: now }
-  }
-
-  return {
-    stock: user.boosterStock + accrued,
-    refilledAt: user.boosterRefilledAt.plus({ milliseconds: accrued * intervalMs }),
-  }
-}
-
-export function stockOf(user: User, now = DateTime.now()): BoosterStock {
-  const { stock, refilledAt } = refilledStock(user, now)
-
-  return {
-    available: stock,
-    max: boosters.maxStock,
-    nextRefillAt: stock < boosters.maxStock ? refilledAt.plus(refillEvery) : null,
-  }
 }
 
 type SlotPick = { rarity: Rarity; article: WikiArticle } | { rarity: Rarity; card: Card }
@@ -70,7 +31,8 @@ export default class BoosterService {
   constructor(
     protected wikipedia: WikipediaClient,
     protected cards: CardFactory,
-    protected roller: RarityRoller
+    protected roller: RarityRoller,
+    protected wallet: WalletService
   ) {}
 
   /**
@@ -119,19 +81,46 @@ export default class BoosterService {
 
       const created = await this.cards.save(attributes, trx)
       const saved = new Map(created.map((card) => [card.wikiPageId, card]))
+      const cardIds = picks.map((pick) =>
+        'card' in pick ? pick.card.id : saved.get(pick.article.pageId)!.id
+      )
+      const ownedCopies = await UserCard.query({ client: trx })
+        .where('user_id', user.id)
+        .whereIn('card_id', cardIds)
+        .select('card_id')
+      const alreadyOwned = new Set(ownedCopies.map((copy) => copy.cardId))
       const opening = await BoosterOpening.create(
         { userId: user.id, openedAt: now },
         { client: trx }
       )
       await UserCard.createMany(
-        picks.map((pick) => ({
+        cardIds.map((cardId) => ({
           userId: user.id,
-          cardId: 'card' in pick ? pick.card.id : saved.get(pick.article.pageId)!.id,
+          cardId,
           boosterOpeningId: opening.id,
           obtainedAt: now,
         })),
         { client: trx }
       )
+
+      // First copy of a card earns a bonus, credited per card for the history
+      const rarities = new Map(
+        picks.map((pick, index) => [
+          cardIds[index],
+          'card' in pick ? pick.card.rarity : saved.get(pick.article.pageId)!.rarity,
+        ])
+      )
+      for (const [cardId, rarity] of rarities) {
+        if (!alreadyOwned.has(cardId)) {
+          await this.wallet.apply(
+            trx,
+            locked,
+            gameConfig.economy.newCardBonus[rarity],
+            'new_card',
+            cardId
+          )
+        }
+      }
 
       return opening
     })

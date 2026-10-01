@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { Library, LogOut, Package } from 'lucide-vue-next'
+import { Coins, Library, LogOut, Package } from 'lucide-vue-next'
 import { usePage } from '@inertiajs/vue3'
-import { Form } from '@adonisjs/inertia/vue'
+import { Form, Link } from '@adonisjs/inertia/vue'
+import { formatWikis } from '~/lib/game'
 import Logo from '~/components/logo.vue'
 import FlashToasts from '~/components/flash_toasts.vue'
 import ThemeToggle from '~/components/theme_toggle.vue'
@@ -24,7 +25,13 @@ const page = usePage()
     <div class="header__inner">
       <Logo :size="28" />
       <div class="header__right">
-        <span v-if="page.props.user" class="header__user">{{ page.props.user.username }}</span>
+        <template v-if="page.props.user">
+          <Link route="wallet" class="header__balance">
+            <Coins :size="15" aria-hidden="true" />
+            <span class="visually-hidden">Solde : </span>{{ formatWikis(page.props.user.balance) }}
+          </Link>
+          <span class="header__user">{{ page.props.user.username }}</span>
+        </template>
         <ThemeToggle />
         <Form route="session.destroy">
           <button type="submit" class="btn btn--secondary btn--sm">

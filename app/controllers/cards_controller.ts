@@ -3,6 +3,7 @@ import Card from '#models/card'
 import CardTransformer from '#transformers/card_transformer'
 import TagTransformer from '#transformers/tag_transformer'
 import CollectionService from '#services/collection_service'
+import gameConfig from '#config/game'
 import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
 
@@ -26,6 +27,7 @@ export default class CardsController {
     return inertia.render('cards/show', {
       card: CardTransformer.transform(card),
       tags: TagTransformer.transform(await collection.tags(user)),
+      salePrice: gameConfig.economy.bankSale[card.rarity],
     })
   }
 }

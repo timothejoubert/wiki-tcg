@@ -30,6 +30,8 @@ router
   .group(() => {
     router.get('/dashboard', [controllers.Boosters, 'index']).as('dashboard')
     router.post('/boosters', [controllers.Boosters, 'store']).as('boosters.store')
+    router.post('/boosters/buy', [controllers.Wallet, 'buyBooster']).as('boosters.buy')
+    router.get('/wallet', [controllers.Wallet, 'index']).as('wallet')
     router
       .get('/boosters/:id', [controllers.Boosters, 'show'])
       .as('boosters.show')
@@ -53,6 +55,11 @@ router
       .as('cards.tags.detach')
       .where('id', router.matchers.number())
       .where('tagId', router.matchers.number())
+
+    router
+      .post('/cards/:id/sell', [controllers.Wallet, 'sell'])
+      .as('cards.sell')
+      .where('id', router.matchers.number())
 
     router.post('/tags', [controllers.Tags, 'store']).as('tags.store')
     router

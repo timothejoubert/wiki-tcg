@@ -115,6 +115,30 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/boosters_controller').default['store']>>>
     }
   }
+  'boosters.buy': {
+    methods: ["POST"]
+    pattern: '/boosters/buy'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/wallet_controller').default['buyBooster']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/wallet_controller').default['buyBooster']>>>
+    }
+  }
+  'wallet': {
+    methods: ["GET","HEAD"]
+    pattern: '/wallet'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/wallet_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/wallet_controller').default['index']>>>
+    }
+  }
   'boosters.show': {
     methods: ["GET","HEAD"]
     pattern: '/boosters/:id'
@@ -185,6 +209,18 @@ export interface Registry {
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/tags_controller').default['detach']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/tags_controller').default['detach']>>>
+    }
+  }
+  'cards.sell': {
+    methods: ["POST"]
+    pattern: '/cards/:id/sell'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/wallet_controller').default['sell']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/wallet_controller').default['sell']>>>
     }
   }
   'tags.store': {

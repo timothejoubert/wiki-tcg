@@ -60,6 +60,18 @@ const routes = {
     tokens: [{"old":"/boosters","type":0,"val":"boosters","end":""}],
     types: placeholder as Registry['boosters.store']['types'],
   },
+  'boosters.buy': {
+    methods: ["POST"],
+    pattern: '/boosters/buy',
+    tokens: [{"old":"/boosters/buy","type":0,"val":"boosters","end":""},{"old":"/boosters/buy","type":0,"val":"buy","end":""}],
+    types: placeholder as Registry['boosters.buy']['types'],
+  },
+  'wallet': {
+    methods: ["GET","HEAD"],
+    pattern: '/wallet',
+    tokens: [{"old":"/wallet","type":0,"val":"wallet","end":""}],
+    types: placeholder as Registry['wallet']['types'],
+  },
   'boosters.show': {
     methods: ["GET","HEAD"],
     pattern: '/boosters/:id',
@@ -95,6 +107,12 @@ const routes = {
     pattern: '/cards/:id/tags/:tagId',
     tokens: [{"old":"/cards/:id/tags/:tagId","type":0,"val":"cards","end":""},{"old":"/cards/:id/tags/:tagId","type":1,"val":"id","end":""},{"old":"/cards/:id/tags/:tagId","type":0,"val":"tags","end":""},{"old":"/cards/:id/tags/:tagId","type":1,"val":"tagId","end":""}],
     types: placeholder as Registry['cards.tags.detach']['types'],
+  },
+  'cards.sell': {
+    methods: ["POST"],
+    pattern: '/cards/:id/sell',
+    tokens: [{"old":"/cards/:id/sell","type":0,"val":"cards","end":""},{"old":"/cards/:id/sell","type":1,"val":"id","end":""},{"old":"/cards/:id/sell","type":0,"val":"sell","end":""}],
+    types: placeholder as Registry['cards.sell']['types'],
   },
   'tags.store': {
     methods: ["POST"],

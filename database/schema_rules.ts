@@ -4,6 +4,15 @@ const gameTypes = { source: '#config/game' }
 
 export default {
   tables: {
+    wallet_transactions: {
+      columns: {
+        kind: {
+          tsType: 'WalletKind',
+          imports: [{ ...gameTypes, typeImports: ['WalletKind'] }],
+          decorators: [{ name: '@column' }],
+        },
+      },
+    },
     cards: {
       columns: {
         rarity: {

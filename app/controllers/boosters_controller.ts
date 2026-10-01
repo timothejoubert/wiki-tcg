@@ -1,20 +1,31 @@
 import BoosterOpening from '#models/booster_opening'
 import CardTransformer from '#transformers/card_transformer'
 import CollectionService from '#services/collection_service'
-import BoosterService, { NoBoosterAvailableError, stockOf } from '#services/booster_service'
+import WalletService from '#services/wallet_service'
+import gameConfig from '#config/game'
+import BoosterService, { NoBoosterAvailableError } from '#services/booster_service'
+import { stockOf } from '#services/booster_stock'
 import { WikipediaUnavailableError } from '#services/wikipedia_client'
 import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class BoostersController {
   @inject()
-  async index({ inertia, auth }: HttpContext, collection: CollectionService) {
+  async index(
+    { inertia, auth }: HttpContext,
+    collection: CollectionService,
+    wallet: WalletService
+  ) {
     const user = auth.getUserOrFail()
+    const dailyBonus = await wallet.claimDailyBonus(user)
     const stock = stockOf(user)
 
     return inertia.render('dashboard', {
       stock: { ...stock, nextRefillAt: stock.nextRefillAt?.toISO() ?? null },
       recent: CardTransformer.transform(await collection.recent(user)),
+      dailyBonus,
+      balance: user.balance,
+      boosterPrice: gameConfig.economy.boosterPrice,
     })
   }
 

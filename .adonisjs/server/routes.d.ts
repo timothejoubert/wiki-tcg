@@ -13,12 +13,15 @@ export type ScannedRoutes = {
     'session.store': { paramsTuple?: []; params?: {} }
     'dashboard': { paramsTuple?: []; params?: {} }
     'boosters.store': { paramsTuple?: []; params?: {} }
+    'boosters.buy': { paramsTuple?: []; params?: {} }
+    'wallet': { paramsTuple?: []; params?: {} }
     'boosters.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection': { paramsTuple?: []; params?: {} }
     'cards.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'cards.favorite': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'cards.tags.attach': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'cards.tags.detach': { paramsTuple: [ParamValue,ParamValue]; params: {'id': ParamValue,'tagId': ParamValue} }
+    'cards.sell': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'tags.store': { paramsTuple?: []; params?: {} }
     'tags.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'session.destroy': { paramsTuple?: []; params?: {} }
@@ -30,6 +33,7 @@ export type ScannedRoutes = {
     'new_account.create': { paramsTuple?: []; params?: {} }
     'session.create': { paramsTuple?: []; params?: {} }
     'dashboard': { paramsTuple?: []; params?: {} }
+    'wallet': { paramsTuple?: []; params?: {} }
     'boosters.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection': { paramsTuple?: []; params?: {} }
     'cards.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -41,6 +45,7 @@ export type ScannedRoutes = {
     'new_account.create': { paramsTuple?: []; params?: {} }
     'session.create': { paramsTuple?: []; params?: {} }
     'dashboard': { paramsTuple?: []; params?: {} }
+    'wallet': { paramsTuple?: []; params?: {} }
     'boosters.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection': { paramsTuple?: []; params?: {} }
     'cards.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -49,8 +54,10 @@ export type ScannedRoutes = {
     'new_account.store': { paramsTuple?: []; params?: {} }
     'session.store': { paramsTuple?: []; params?: {} }
     'boosters.store': { paramsTuple?: []; params?: {} }
+    'boosters.buy': { paramsTuple?: []; params?: {} }
     'cards.favorite': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'cards.tags.attach': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'cards.sell': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'tags.store': { paramsTuple?: []; params?: {} }
     'session.destroy': { paramsTuple?: []; params?: {} }
   }

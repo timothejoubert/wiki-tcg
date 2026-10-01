@@ -1378,3 +1378,90 @@ input {
 .recent {
   margin-top: 40px;
 }
+
+/* Wallet --------------------------------------------------------------- */
+
+.header__balance {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 13px;
+}
+.daily-bonus {
+  max-width: 420px;
+  margin: 0 auto 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--rarity-legendary);
+  border-radius: var(--r);
+  text-align: center;
+}
+.booster-panel__buy {
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+}
+.booster-panel__hint {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.card-detail__sell {
+  margin-bottom: 20px;
+}
+.wallet-balance {
+  margin-bottom: 24px;
+  padding: 20px;
+  background: var(--card);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-lg);
+}
+.wallet-balance__label {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+}
+.wallet-balance__amount {
+  font-family: var(--mono);
+  font-size: 32px;
+  font-weight: 700;
+}
+.wallet-balance__help {
+  margin-top: 6px;
+  font-size: 13.5px;
+  color: var(--ink-2);
+}
+.ledger {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+.ledger th,
+.ledger td {
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+}
+.ledger th {
+  font-weight: 500;
+  color: var(--muted);
+}
+.ledger__num {
+  text-align: right !important;
+  font-family: var(--mono);
+  white-space: nowrap;
+}
+.ledger__in {
+  color: var(--ok);
+}
+.ledger__out {
+  color: var(--ink-2);
+}
+@media (max-width: 640px) {
+  .ledger th:first-child,
+  .ledger td:first-child {
+    display: none;
+  }
+}

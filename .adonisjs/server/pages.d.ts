@@ -20,5 +20,6 @@ declare module '@adonisjs/inertia/types' {
     'home': ExtractProps<(typeof import('../../inertia/pages/home.vue'))['default']>
     'legal/rules': ExtractProps<(typeof import('../../inertia/pages/legal/rules.vue'))['default']>
     'legal/terms': ExtractProps<(typeof import('../../inertia/pages/legal/terms.vue'))['default']>
+    'wallet': ExtractProps<(typeof import('../../inertia/pages/wallet.vue'))['default']>
   }
 }

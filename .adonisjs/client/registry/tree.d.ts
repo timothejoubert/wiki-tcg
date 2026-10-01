@@ -19,8 +19,10 @@ export interface ApiDefinition {
   dashboard: typeof routes['dashboard']
   boosters: {
     store: typeof routes['boosters.store']
+    buy: typeof routes['boosters.buy']
     show: typeof routes['boosters.show']
   }
+  wallet: typeof routes['wallet']
   collection: typeof routes['collection']
   cards: {
     show: typeof routes['cards.show']
@@ -29,6 +31,7 @@ export interface ApiDefinition {
       attach: typeof routes['cards.tags.attach']
       detach: typeof routes['cards.tags.detach']
     }
+    sell: typeof routes['cards.sell']
   }
   tags: {
     store: typeof routes['tags.store']

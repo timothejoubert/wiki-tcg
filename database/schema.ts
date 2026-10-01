@@ -6,7 +6,7 @@
 
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
-import type { QualityLabel, Rarity } from '#config/game'
+import type { QualityLabel, Rarity, WalletKind } from '#config/game'
 
 export class BoosterOpeningSchema extends BaseModel {
   static $columns = ['id', 'openedAt', 'userId'] as const
@@ -118,16 +118,20 @@ export class UserCardSchema extends BaseModel {
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = ['adultConfirmedAt', 'boosterRefilledAt', 'boosterStock', 'createdAt', 'email', 'id', 'password', 'updatedAt', 'username'] as const
+  static $columns = ['adultConfirmedAt', 'balance', 'boosterRefilledAt', 'boosterStock', 'createdAt', 'dailyBonusClaimedOn', 'email', 'id', 'password', 'updatedAt', 'username'] as const
   $columns = UserSchema.$columns
   @column.dateTime()
   declare adultConfirmedAt: DateTime
+  @column()
+  declare balance: number
   @column.dateTime()
   declare boosterRefilledAt: DateTime
   @column()
   declare boosterStock: number
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
+  @column.date()
+  declare dailyBonusClaimedOn: DateTime | null
   @column()
   declare email: string
   @column({ isPrimary: true })
@@ -138,4 +142,23 @@ export class UserSchema extends BaseModel {
   declare updatedAt: DateTime | null
   @column()
   declare username: string
+}
+
+export class WalletTransactionSchema extends BaseModel {
+  static $columns = ['amount', 'balanceAfter', 'cardId', 'createdAt', 'id', 'kind', 'userId'] as const
+  $columns = WalletTransactionSchema.$columns
+  @column()
+  declare amount: number
+  @column()
+  declare balanceAfter: number
+  @column()
+  declare cardId: number | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare kind: WalletKind
+  @column()
+  declare userId: number
 }

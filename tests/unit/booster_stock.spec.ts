@@ -1,6 +1,6 @@
 import { test } from '@japa/runner'
 import { DateTime } from 'luxon'
-import { refilledStock } from '#services/booster_service'
+import { refilledStock } from '#services/booster_stock'
 
 const start = DateTime.fromISO('2026-10-01T12:00:00Z')
 
