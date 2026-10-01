@@ -18,9 +18,9 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
 
     const theme: 'light' | 'dark' =
       request?.plainCookie('app_theme', {
-        defaultValue: 'light',
+        defaultValue: 'dark',
         encoded: false,
-      }) ?? 'light'
+      }) ?? 'dark'
 
     const pendingTrades = auth?.user ? await new TradeService().pendingReceivedCount(auth.user) : 0
 

@@ -991,70 +991,230 @@ input {
 }
 
 /* Card ------------------------------------------------------------------ */
+/* Holographic escalation, from the Figma « Card v4/v5 » direction. */
+
+:root {
+  --pearl: conic-gradient(
+    from 210deg at 62% 38%,
+    #ffb8e8,
+    #fff1b8,
+    #b8ffe0,
+    #b8e6ff,
+    #cdb8ff,
+    #ffb8e8
+  );
+  --pearl-edge: linear-gradient(115deg, #ffb8e8, #b8e6ff 30%, #cdb8ff 55%, #b8ffe0 78%, #fff1b8);
+  --gold-foil: linear-gradient(125deg, #fff4c8, #e3a52a 35%, #fff4c8 60%, #b8790a);
+  --card-ink: #07070d;
+}
 
 .tcg-card {
   --rarity: var(--rarity-common);
+  --edge: linear-gradient(var(--line-2), var(--line-2));
+  --edge-width: 1px;
+  --surface: linear-gradient(var(--card), var(--card));
+  --glow: 0 10px 28px -12px rgba(0, 0, 0, 0.45);
+  --sheen-strength: 0;
   position: relative;
   display: flex;
   flex-direction: column;
+  gap: 8px;
   height: 100%;
-  background: var(--card);
-  border: 1px solid var(--line-2);
-  border-top: 4px solid var(--rarity);
-  border-radius: var(--r-lg);
+  padding: 8px;
+  border: var(--edge-width) solid transparent;
+  border-radius: 14px;
+  background:
+    var(--surface) padding-box,
+    var(--edge) border-box;
+  box-shadow: var(--glow);
   overflow: hidden;
+  isolation: isolate;
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition:
+    transform 300ms ease,
+    box-shadow 300ms ease;
 }
 .tcg-card--uncommon {
   --rarity: var(--rarity-uncommon);
+  --edge: var(--pearl-edge);
 }
 .tcg-card--rare {
   --rarity: var(--rarity-rare);
+  --edge: var(--pearl-edge);
+  --edge-width: 1.5px;
+  --glow: 0 0 22px -4px rgba(92, 178, 255, 0.4);
+  --sheen-strength: 0.35;
 }
 .tcg-card--super_rare {
   --rarity: var(--rarity-super_rare);
+  --edge: var(--pearl-edge);
+  --edge-width: 2px;
+  --glow: 0 0 30px -4px rgba(208, 140, 255, 0.55);
+  --sheen-strength: 0.5;
 }
 .tcg-card--legendary {
   --rarity: var(--rarity-legendary);
+  --edge: var(--gold-foil);
+  --edge-width: 3px;
+  --surface: var(--pearl);
+  --glow: 0 0 38px -4px rgba(255, 201, 77, 0.6);
+  --sheen-strength: 0.65;
+  color: var(--card-ink);
 }
 
+/* Art: always on top, same size on every card */
 .tcg-card__art {
+  position: relative;
   aspect-ratio: 4 / 3;
-  background: var(--paper);
-  display: grid;
-  place-items: center;
+  border-radius: 10px;
   overflow: hidden;
+  background: #07070d;
+}
+.tcg-card__art::before {
+  /* rarity tint behind the monogram */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--rarity);
+  opacity: 0.12;
 }
 .tcg-card__art img {
+  position: relative;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-.tcg-card__placeholder {
-  font-family: var(--serif);
-  font-size: 48px;
-  color: var(--subtle);
+.tcg-card--super_rare .tcg-card__art--empty,
+.tcg-card--legendary .tcg-card__art--empty {
+  background: var(--pearl);
+}
+.tcg-card--super_rare .tcg-card__art--empty::before,
+.tcg-card--legendary .tcg-card__art--empty::before {
+  opacity: 0;
+}
+.tcg-card--super_rare .tcg-card__art img,
+.tcg-card--legendary .tcg-card__art img {
+  /* holo over photos: the picture stays readable */
+  filter: saturate(1.1) contrast(1.05);
+}
+.tcg-card--super_rare .tcg-card__art:has(img)::after,
+.tcg-card--legendary .tcg-card__art:has(img)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--pearl);
+  mix-blend-mode: color-dodge;
+  opacity: 0.32;
+}
+.tcg-card__monogram {
+  position: absolute;
+  right: 10px;
+  bottom: 4px;
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: 40px;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--rarity);
+  opacity: 0.3;
+}
+.tcg-card--super_rare .tcg-card__monogram,
+.tcg-card--legendary .tcg-card__monogram {
+  color: var(--card-ink);
+  opacity: 0.42;
+}
+.tcg-card__grain {
+  /* foil grain: fine diagonal hairlines */
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -35deg,
+    rgba(255, 255, 255, 0.5) 0 1px,
+    transparent 1px 3px
+  );
+  mix-blend-mode: overlay;
+  opacity: 0;
+  pointer-events: none;
+}
+.tcg-card--super_rare .tcg-card__grain,
+.tcg-card--legendary .tcg-card__grain {
+  opacity: 0.35;
+}
+.tcg-card__streak {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+      115deg,
+      transparent 38%,
+      rgba(255, 255, 255, 0.85) 50%,
+      transparent 62%
+    )
+    var(--mx, 30%) 0 / 260% 100% no-repeat;
+  mix-blend-mode: screen;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms ease;
+}
+.tcg-card--rare .tcg-card__streak {
+  opacity: 0.25;
+}
+.tcg-card--super_rare .tcg-card__streak,
+.tcg-card--legendary .tcg-card__streak {
+  opacity: 0.55;
+}
+
+/* Badge over the art, top right */
+.tcg-card__badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
+  padding: 3px 8px;
+  border: 1px solid var(--rarity);
+  border-radius: 999px;
+  background: rgba(7, 7, 13, 0.72);
+  color: var(--rarity);
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.2;
+}
+.tcg-card__badge abbr {
+  text-decoration: none;
+}
+.tcg-card--super_rare .tcg-card__badge {
+  border-color: transparent;
+  background: var(--pearl-edge);
+  color: var(--card-ink);
+}
+.tcg-card--legendary .tcg-card__badge {
+  border-color: transparent;
+  background: var(--card-ink);
+  color: var(--rarity-legendary);
 }
 
 .tcg-card__body {
   flex: 1;
-  padding: 12px 14px 8px;
+  padding: 2px 6px 6px;
 }
 .tcg-card__title {
   font-size: 15px;
-  line-height: 1.3;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
 }
 .tcg-card__link::after {
   /* Whole card is clickable, the title stays the accessible name */
   content: '';
   position: absolute;
   inset: 0;
+  z-index: 1;
 }
 .tcg-card__link:focus-visible {
   outline: none;
 }
 .tcg-card:has(.tcg-card__link:focus-visible) {
   outline: 2px solid var(--ink);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 .tcg-card__desc {
   margin-top: 6px;
@@ -1065,34 +1225,49 @@ input {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+.tcg-card--legendary .tcg-card__desc {
+  color: var(--card-ink);
+  opacity: 0.78;
+}
 
-.tcg-card__foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 10px 14px 12px;
-  border-top: 1px solid var(--line);
+/* Pointer-tracked sheen over the whole card */
+.tcg-card__sheen {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at var(--mx, 50%) var(--my, 30%),
+    rgba(255, 255, 255, 0.55),
+    transparent 48%
+  );
+  mix-blend-mode: overlay;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms ease;
 }
-.tcg-card__rarity {
-  font-family: var(--mono);
-  font-weight: 700;
-  font-size: 13px;
-  color: var(--rarity);
+.tcg-card.is-active .tcg-card__sheen {
+  opacity: var(--sheen-strength);
 }
-.tcg-card__rarity abbr {
-  text-decoration: none;
-}
+
 .tcg-card__copies {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  bottom: 8px;
+  left: 8px;
+  z-index: 1;
   padding: 2px 8px;
   border-radius: 999px;
-  background: var(--ink);
-  color: var(--paper);
+  background: rgba(7, 7, 13, 0.78);
+  color: #ececf4;
   font-family: var(--mono);
   font-size: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tcg-card {
+    transform: none;
+    transition: none;
+  }
 }
 
 /* Grids ----------------------------------------------------------------- */
@@ -1234,14 +1409,15 @@ input {
 
 .tcg-card__favorite {
   position: absolute;
-  top: 8px;
-  left: 8px;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
   display: grid;
   place-items: center;
   width: 26px;
   height: 26px;
   border-radius: 999px;
-  background: var(--ink);
+  background: rgba(7, 7, 13, 0.72);
   color: var(--rarity-legendary);
 }
 
@@ -1736,13 +1912,13 @@ input {
 
 .tcg-card__favorite-form {
   position: absolute;
-  top: 8px;
-  left: 8px;
+  top: 16px;
+  left: 16px;
   z-index: 2;
 }
 .tcg-card__favorite--toggle {
   position: static;
-  color: var(--paper);
+  color: #ececf4;
   opacity: 0.85;
 }
 .tcg-card__favorite--toggle.is-on {
@@ -1826,4 +2002,54 @@ input {
 :root[data-theme='dark'] .settings-form__danger {
   border-color: #f97066;
   color: #f97066;
+}
+
+/* Mobile --------------------------------------------------------------- */
+
+.logo__name {
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .tcg-card {
+    padding: 6px;
+    gap: 6px;
+  }
+  .tcg-card__title {
+    font-size: 13px;
+  }
+  .tcg-card__desc {
+    font-size: 11.5px;
+    -webkit-line-clamp: 2;
+  }
+  .tcg-card__monogram {
+    font-size: 28px;
+  }
+  .tcg-card__favorite,
+  .tcg-card__favorite-form {
+    top: 12px;
+    left: 12px;
+  }
+  .header__user,
+  .btn__label {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+  .header__right {
+    gap: 6px;
+  }
+  .subnav__inner {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .subnav__item {
+    flex: none;
+  }
 }

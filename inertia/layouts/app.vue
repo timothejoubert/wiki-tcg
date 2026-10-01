@@ -56,7 +56,8 @@ const page = usePage()
         <ThemeToggle />
         <Form route="session.destroy">
           <button type="submit" class="btn btn--secondary btn--sm">
-            <LogOut :size="15" aria-hidden="true" /> Déconnexion
+            <LogOut :size="15" aria-hidden="true" />
+            <span class="btn__label">Déconnexion</span>
           </button>
         </Form>
       </div>

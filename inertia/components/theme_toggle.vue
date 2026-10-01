@@ -7,7 +7,7 @@ const COOKIE = 'app_theme'
 const ONE_YEAR = 60 * 60 * 24 * 365
 
 const page = usePage()
-const theme = ref<'light' | 'dark'>(page.props.preferences?.theme ?? 'light')
+const theme = ref<'light' | 'dark'>(page.props.preferences?.theme ?? 'dark')
 
 function toggle() {
   const next = theme.value === 'dark' ? 'light' : 'dark'
