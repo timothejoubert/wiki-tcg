@@ -4,6 +4,14 @@ const gameTypes = { source: '#config/game' }
 
 export default {
   tables: {
+    user_tokens: {
+      columns: {
+        type: {
+          tsType: "'password_reset' | 'email_change'",
+          decorators: [{ name: '@column' }],
+        },
+      },
+    },
     trades: {
       columns: {
         status: {

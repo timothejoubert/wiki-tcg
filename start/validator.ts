@@ -35,6 +35,7 @@ vine.messagesProvider = new SimpleMessagesProvider({
   'database.unique': 'Déjà utilisé par un autre compte.',
   'sameAs': 'Les mots de passe ne correspondent pas.',
   'accepted': 'Tu dois confirmer avoir 18 ans et accepter les conditions.',
+  'confirm.accepted': 'Coche la case pour confirmer la suppression.',
   'enum': 'Valeur invalide.',
   'number': 'Ce champ doit être un nombre.',
   'boolean': 'Valeur invalide.',

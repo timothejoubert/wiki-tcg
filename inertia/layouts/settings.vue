@@ -12,7 +12,10 @@ import NavLink, { type NavItem } from '~/components/nav_link.vue'
  *
  * `<AppLayout><SettingsLayout>…</SettingsLayout></AppLayout>`
  */
-const items: NavItem[] = [{ label: 'Confidentialité', route: 'settings' }]
+const items: NavItem[] = [
+  { label: 'Confidentialité', route: 'settings' },
+  { label: 'Compte', route: 'settings.account' },
+]
 </script>
 
 <template>

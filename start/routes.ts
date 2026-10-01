@@ -15,6 +15,9 @@ import router from '@adonisjs/core/services/router'
 router.on('/').renderInertia('home', {}).as('home').use(middleware.guest())
 router.on('/regles').renderInertia('legal/rules', {}).as('legal.rules')
 router.on('/conditions').renderInertia('legal/terms', {}).as('legal.terms')
+router
+  .get('/confirmer-email/:token', [controllers.Account, 'confirmEmail'])
+  .as('account.confirm_email')
 
 router
   .group(() => {
@@ -23,6 +26,21 @@ router
 
     router.get('login', [controllers.Session, 'create'])
     router.post('login', [controllers.Session, 'store']).use(authThrottle)
+
+    router
+      .get('mot-de-passe-oublie', [controllers.PasswordReset, 'create'])
+      .as('password_reset.create')
+    router
+      .post('mot-de-passe-oublie', [controllers.PasswordReset, 'store'])
+      .as('password_reset.store')
+      .use(authThrottle)
+    router
+      .get('reinitialiser/:token', [controllers.PasswordReset, 'edit'])
+      .as('password_reset.edit')
+    router
+      .post('reinitialiser/:token', [controllers.PasswordReset, 'update'])
+      .as('password_reset.update')
+      .use(authThrottle)
   })
   .use(middleware.guest())
 
@@ -90,6 +108,12 @@ router
     router.get('/joueurs/:username', [controllers.Players, 'show']).as('players.show')
     router.get('/reglages', [controllers.Settings, 'edit']).as('settings')
     router.put('/reglages', [controllers.Settings, 'update']).as('settings.update')
+    router.get('/reglages/compte', [controllers.Account, 'edit']).as('settings.account')
+    router
+      .put('/reglages/mot-de-passe', [controllers.Account, 'updatePassword'])
+      .as('settings.password')
+    router.put('/reglages/email', [controllers.Account, 'updateEmail']).as('settings.email')
+    router.delete('/reglages/compte', [controllers.Account, 'destroy']).as('settings.delete')
 
     router.post('/tags', [controllers.Tags, 'store']).as('tags.store')
     router

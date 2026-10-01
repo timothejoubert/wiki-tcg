@@ -24,6 +24,12 @@ const routes = {
     tokens: [{"old":"/conditions","type":0,"val":"conditions","end":""}],
     types: placeholder as Registry['legal.terms']['types'],
   },
+  'account.confirm_email': {
+    methods: ["GET","HEAD"],
+    pattern: '/confirmer-email/:token',
+    tokens: [{"old":"/confirmer-email/:token","type":0,"val":"confirmer-email","end":""},{"old":"/confirmer-email/:token","type":1,"val":"token","end":""}],
+    types: placeholder as Registry['account.confirm_email']['types'],
+  },
   'new_account.create': {
     methods: ["GET","HEAD"],
     pattern: '/signup',
@@ -47,6 +53,30 @@ const routes = {
     pattern: '/login',
     tokens: [{"old":"/login","type":0,"val":"login","end":""}],
     types: placeholder as Registry['session.store']['types'],
+  },
+  'password_reset.create': {
+    methods: ["GET","HEAD"],
+    pattern: '/mot-de-passe-oublie',
+    tokens: [{"old":"/mot-de-passe-oublie","type":0,"val":"mot-de-passe-oublie","end":""}],
+    types: placeholder as Registry['password_reset.create']['types'],
+  },
+  'password_reset.store': {
+    methods: ["POST"],
+    pattern: '/mot-de-passe-oublie',
+    tokens: [{"old":"/mot-de-passe-oublie","type":0,"val":"mot-de-passe-oublie","end":""}],
+    types: placeholder as Registry['password_reset.store']['types'],
+  },
+  'password_reset.edit': {
+    methods: ["GET","HEAD"],
+    pattern: '/reinitialiser/:token',
+    tokens: [{"old":"/reinitialiser/:token","type":0,"val":"reinitialiser","end":""},{"old":"/reinitialiser/:token","type":1,"val":"token","end":""}],
+    types: placeholder as Registry['password_reset.edit']['types'],
+  },
+  'password_reset.update': {
+    methods: ["POST"],
+    pattern: '/reinitialiser/:token',
+    tokens: [{"old":"/reinitialiser/:token","type":0,"val":"reinitialiser","end":""},{"old":"/reinitialiser/:token","type":1,"val":"token","end":""}],
+    types: placeholder as Registry['password_reset.update']['types'],
   },
   'dashboard': {
     methods: ["GET","HEAD"],
@@ -203,6 +233,30 @@ const routes = {
     pattern: '/reglages',
     tokens: [{"old":"/reglages","type":0,"val":"reglages","end":""}],
     types: placeholder as Registry['settings.update']['types'],
+  },
+  'settings.account': {
+    methods: ["GET","HEAD"],
+    pattern: '/reglages/compte',
+    tokens: [{"old":"/reglages/compte","type":0,"val":"reglages","end":""},{"old":"/reglages/compte","type":0,"val":"compte","end":""}],
+    types: placeholder as Registry['settings.account']['types'],
+  },
+  'settings.password': {
+    methods: ["PUT"],
+    pattern: '/reglages/mot-de-passe',
+    tokens: [{"old":"/reglages/mot-de-passe","type":0,"val":"reglages","end":""},{"old":"/reglages/mot-de-passe","type":0,"val":"mot-de-passe","end":""}],
+    types: placeholder as Registry['settings.password']['types'],
+  },
+  'settings.email': {
+    methods: ["PUT"],
+    pattern: '/reglages/email',
+    tokens: [{"old":"/reglages/email","type":0,"val":"reglages","end":""},{"old":"/reglages/email","type":0,"val":"email","end":""}],
+    types: placeholder as Registry['settings.email']['types'],
+  },
+  'settings.delete': {
+    methods: ["DELETE"],
+    pattern: '/reglages/compte',
+    tokens: [{"old":"/reglages/compte","type":0,"val":"reglages","end":""},{"old":"/reglages/compte","type":0,"val":"compte","end":""}],
+    types: placeholder as Registry['settings.delete']['types'],
   },
   'tags.store': {
     methods: ["POST"],

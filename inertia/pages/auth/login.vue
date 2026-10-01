@@ -36,6 +36,7 @@ import { Form, Link } from '@adonisjs/inertia/vue'
             required
           />
           <span v-if="errors.password" class="field__error">{{ errors.password }}</span>
+          <Link route="password_reset.create" class="il field__hint">Mot de passe oublié ?</Link>
         </div>
 
         <button type="submit" class="btn btn--primary btn--block" :disabled="processing">

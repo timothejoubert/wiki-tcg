@@ -199,6 +199,27 @@ export class UserCardSchema extends BaseModel {
   declare userId: number
 }
 
+export class UserTokenSchema extends BaseModel {
+  static $columns = ['createdAt', 'email', 'expiresAt', 'id', 'tokenHash', 'type', 'usedAt', 'userId'] as const
+  $columns = UserTokenSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare email: string | null
+  @column.dateTime()
+  declare expiresAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare tokenHash: string
+  @column()
+  declare type: 'password_reset' | 'email_change'
+  @column.dateTime()
+  declare usedAt: DateTime | null
+  @column()
+  declare userId: number
+}
+
 export class UserSchema extends BaseModel {
   static $columns = ['adultConfirmedAt', 'balance', 'boosterRefilledAt', 'boosterStock', 'collectionPublic', 'createdAt', 'dailyBonusClaimedOn', 'email', 'id', 'password', 'updatedAt', 'username'] as const
   $columns = UserSchema.$columns

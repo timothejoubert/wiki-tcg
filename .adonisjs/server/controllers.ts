@@ -4,12 +4,14 @@
  */
 
 export const controllers = {
+  Account: () => import('#controllers/account_controller'),
   Auctions: () => import('#controllers/auctions_controller'),
   Boosters: () => import('#controllers/boosters_controller'),
   Cards: () => import('#controllers/cards_controller'),
   Collection: () => import('#controllers/collection_controller'),
   Favorites: () => import('#controllers/favorites_controller'),
   NewAccount: () => import('#controllers/new_account_controller'),
+  PasswordReset: () => import('#controllers/password_reset_controller'),
   Players: () => import('#controllers/players_controller'),
   Session: () => import('#controllers/session_controller'),
   Settings: () => import('#controllers/settings_controller'),

@@ -31,3 +31,28 @@ export const loginValidator = vine.create({
   login: vine.string().trim(),
   password: vine.string(),
 })
+
+export const forgotPasswordValidator = vine.create({
+  email: email(),
+})
+
+export const resetPasswordValidator = vine.create({
+  password: password(),
+  passwordConfirmation: password().sameAs('password'),
+})
+
+export const changePasswordValidator = vine.create({
+  currentPassword: vine.string(),
+  password: password(),
+  passwordConfirmation: password().sameAs('password'),
+})
+
+export const changeEmailValidator = vine.create({
+  currentPassword: vine.string(),
+  email: email(),
+})
+
+export const deleteAccountValidator = vine.create({
+  currentPassword: vine.string(),
+  confirm: vine.accepted(),
+})

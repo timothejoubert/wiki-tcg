@@ -31,6 +31,7 @@ export default defineConfig({
     () => import('@adonisjs/session/commands'),
     () => import('@adonisjs/inertia/commands'),
     () => import('adonisjs-scheduler/commands'),
+    () => import('@adonisjs/mail/commands'),
   ],
 
   /*
@@ -65,6 +66,7 @@ export default defineConfig({
       file: () => import('adonisjs-scheduler/scheduler_provider'),
       environment: ['console'],
     },
+    () => import('@adonisjs/mail/mail_provider'),
   ],
 
   /*

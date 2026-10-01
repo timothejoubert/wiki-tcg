@@ -7,6 +7,9 @@ export interface ApiDefinition {
     rules: typeof routes['legal.rules']
     terms: typeof routes['legal.terms']
   }
+  account: {
+    confirmEmail: typeof routes['account.confirm_email']
+  }
   newAccount: {
     create: typeof routes['new_account.create']
     store: typeof routes['new_account.store']
@@ -15,6 +18,12 @@ export interface ApiDefinition {
     create: typeof routes['session.create']
     store: typeof routes['session.store']
     destroy: typeof routes['session.destroy']
+  }
+  passwordReset: {
+    create: typeof routes['password_reset.create']
+    store: typeof routes['password_reset.store']
+    edit: typeof routes['password_reset.edit']
+    update: typeof routes['password_reset.update']
   }
   dashboard: typeof routes['dashboard']
   boosters: {
@@ -56,6 +65,10 @@ export interface ApiDefinition {
   }
   settings: typeof routes['settings'] & {
     update: typeof routes['settings.update']
+    account: typeof routes['settings.account']
+    password: typeof routes['settings.password']
+    email: typeof routes['settings.email']
+    delete: typeof routes['settings.delete']
   }
   tags: {
     store: typeof routes['tags.store']
