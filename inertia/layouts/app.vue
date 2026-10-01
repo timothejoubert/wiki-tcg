@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Coins, Gavel, Library, LogOut, Package } from 'lucide-vue-next'
+import { ArrowLeftRight, Coins, Gavel, Library, LogOut, Package } from 'lucide-vue-next'
 import { usePage } from '@inertiajs/vue3'
 import { Form, Link } from '@adonisjs/inertia/vue'
 import { formatWikis } from '~/lib/game'
@@ -16,6 +16,7 @@ const nav: NavItem[] = [
   { label: 'Boosters', route: 'dashboard', icon: Package },
   { label: 'Collection', route: 'collection', icon: Library },
   { label: 'Enchères', route: 'auctions.index', icon: Gavel },
+  { label: 'Échanges', route: 'trades.index', icon: ArrowLeftRight },
 ]
 
 const page = usePage()
@@ -48,6 +49,13 @@ const page = usePage()
       <NavLink v-for="item in nav" :key="item.label" :route="item.route" class="subnav__item">
         <component :is="item.icon" v-if="item.icon" :size="14" aria-hidden="true" />
         {{ item.label }}
+        <span
+          v-if="item.route === 'trades.index' && page.props.pendingTrades"
+          class="subnav__badge"
+        >
+          {{ page.props.pendingTrades }}
+          <span class="visually-hidden">proposition(s) en attente</span>
+        </span>
       </NavLink>
     </div>
   </nav>

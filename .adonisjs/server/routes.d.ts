@@ -27,6 +27,12 @@ export type ScannedRoutes = {
     'auctions.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'auctions.bid': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'auctions.cancel': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'trades.index': { paramsTuple?: []; params?: {} }
+    'trades.create': { paramsTuple?: []; params?: {} }
+    'trades.store': { paramsTuple?: []; params?: {} }
+    'trades.accept': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'trades.decline': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'trades.cancel': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'tags.store': { paramsTuple?: []; params?: {} }
     'tags.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'session.destroy': { paramsTuple?: []; params?: {} }
@@ -44,6 +50,8 @@ export type ScannedRoutes = {
     'cards.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'auctions.index': { paramsTuple?: []; params?: {} }
     'auctions.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'trades.index': { paramsTuple?: []; params?: {} }
+    'trades.create': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
     'home': { paramsTuple?: []; params?: {} }
@@ -58,6 +66,8 @@ export type ScannedRoutes = {
     'cards.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'auctions.index': { paramsTuple?: []; params?: {} }
     'auctions.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'trades.index': { paramsTuple?: []; params?: {} }
+    'trades.create': { paramsTuple?: []; params?: {} }
   }
   POST: {
     'new_account.store': { paramsTuple?: []; params?: {} }
@@ -70,6 +80,10 @@ export type ScannedRoutes = {
     'auctions.store': { paramsTuple?: []; params?: {} }
     'auctions.bid': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'auctions.cancel': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'trades.store': { paramsTuple?: []; params?: {} }
+    'trades.accept': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'trades.decline': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'trades.cancel': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'tags.store': { paramsTuple?: []; params?: {} }
     'session.destroy': { paramsTuple?: []; params?: {} }
   }

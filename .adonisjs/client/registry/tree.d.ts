@@ -40,6 +40,14 @@ export interface ApiDefinition {
     bid: typeof routes['auctions.bid']
     cancel: typeof routes['auctions.cancel']
   }
+  trades: {
+    index: typeof routes['trades.index']
+    create: typeof routes['trades.create']
+    store: typeof routes['trades.store']
+    accept: typeof routes['trades.accept']
+    decline: typeof routes['trades.decline']
+    cancel: typeof routes['trades.cancel']
+  }
   tags: {
     store: typeof routes['tags.store']
     destroy: typeof routes['tags.destroy']

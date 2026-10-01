@@ -20,6 +20,9 @@ export type WalletKind = (typeof WALLET_KINDS)[number]
 export const AUCTION_STATUSES = ['open', 'sold', 'unsold', 'cancelled'] as const
 export type AuctionStatus = (typeof AUCTION_STATUSES)[number]
 
+export const TRADE_STATUSES = ['pending', 'accepted', 'declined', 'cancelled', 'expired'] as const
+export type TradeStatus = (typeof TRADE_STATUSES)[number]
+
 export const QUALITY_LABELS = ['featured', 'good'] as const
 export type QualityLabel = (typeof QUALITY_LABELS)[number]
 
@@ -115,6 +118,7 @@ const gameConfig = {
     },
     trades: {
       expiresAfterHours: 48,
+      maxCardsPerSide: 10,
     },
   },
 

@@ -103,12 +103,7 @@ export default class WalletService {
       const locked = await this.lock(trx, user.id)
       const copies = await UserCard.query({ client: trx })
         .where({ userId: user.id, cardId })
-        .whereNotExists((open) =>
-          open
-            .from('auctions')
-            .whereColumn('auctions.user_card_id', 'user_cards.id')
-            .where('auctions.status', 'open')
-        )
+        .withScopes((scopes) => scopes.free())
         .orderBy('obtained_at', 'desc')
         .orderBy('id', 'desc')
         .forUpdate()

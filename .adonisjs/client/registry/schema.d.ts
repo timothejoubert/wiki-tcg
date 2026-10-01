@@ -283,6 +283,78 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auctions_controller').default['cancel']>>>
     }
   }
+  'trades.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/trades'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/trades_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/trades_controller').default['index']>>>
+    }
+  }
+  'trades.create': {
+    methods: ["GET","HEAD"]
+    pattern: '/trades/new'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/trades_controller').default['create']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/trades_controller').default['create']>>>
+    }
+  }
+  'trades.store': {
+    methods: ["POST"]
+    pattern: '/trades'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/trade').proposeTradeValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/trade').proposeTradeValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/trades_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/trades_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'trades.accept': {
+    methods: ["POST"]
+    pattern: '/trades/:id/accept'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/trades_controller').default['accept']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/trades_controller').default['accept']>>>
+    }
+  }
+  'trades.decline': {
+    methods: ["POST"]
+    pattern: '/trades/:id/decline'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/trades_controller').default['decline']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/trades_controller').default['decline']>>>
+    }
+  }
+  'trades.cancel': {
+    methods: ["POST"]
+    pattern: '/trades/:id/cancel'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/trades_controller').default['cancel']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/trades_controller').default['cancel']>>>
+    }
+  }
   'tags.store': {
     methods: ["POST"]
     pattern: '/tags'

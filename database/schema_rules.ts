@@ -4,6 +4,15 @@ const gameTypes = { source: '#config/game' }
 
 export default {
   tables: {
+    trades: {
+      columns: {
+        status: {
+          tsType: 'TradeStatus',
+          imports: [{ ...gameTypes, typeImports: ['TradeStatus'] }],
+          decorators: [{ name: '@column' }],
+        },
+      },
+    },
     auctions: {
       columns: {
         status: {

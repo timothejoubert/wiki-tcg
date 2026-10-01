@@ -74,12 +74,7 @@ export default class AuctionService {
     return db.transaction(async (trx) => {
       const copy = await UserCard.query({ client: trx })
         .where({ userId: seller.id, cardId })
-        .whereNotExists((open) =>
-          open
-            .from('auctions')
-            .whereColumn('auctions.user_card_id', 'user_cards.id')
-            .where('auctions.status', 'open')
-        )
+        .withScopes((scopes) => scopes.free())
         .orderBy('obtained_at', 'asc')
         .orderBy('id', 'asc')
         .forUpdate()

@@ -76,6 +76,16 @@ router
       .as('auctions.cancel')
       .where('id', router.matchers.number())
 
+    router.get('/trades', [controllers.Trades, 'index']).as('trades.index')
+    router.get('/trades/new', [controllers.Trades, 'create']).as('trades.create')
+    router.post('/trades', [controllers.Trades, 'store']).as('trades.store')
+    for (const action of ['accept', 'decline', 'cancel'] as const) {
+      router
+        .post(`/trades/:id/${action}`, [controllers.Trades, action])
+        .as(`trades.${action}`)
+        .where('id', router.matchers.number())
+    }
+
     router.post('/tags', [controllers.Tags, 'store']).as('tags.store')
     router
       .delete('/tags/:id', [controllers.Tags, 'destroy'])

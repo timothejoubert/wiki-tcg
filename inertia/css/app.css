@@ -1560,3 +1560,126 @@ input {
 .bid-history__list time {
   color: var(--muted);
 }
+
+/* Trades --------------------------------------------------------------- */
+
+.subnav__badge {
+  min-width: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+}
+.trade-list {
+  list-style: none;
+  display: grid;
+  gap: 16px;
+}
+.trade {
+  padding: 16px;
+  background: var(--card);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-lg);
+  display: grid;
+  gap: 14px;
+}
+.trade__head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+}
+.trade__meta {
+  font-size: 13px;
+  color: var(--muted);
+}
+.trade__sides {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+.trade-side__title {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.trade__actions {
+  display: flex;
+  gap: 8px;
+}
+.pick-list {
+  list-style: none;
+  display: grid;
+  gap: 4px;
+  font-size: 13.5px;
+}
+.pick-list--scroll {
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.pick-list__item {
+  --rarity: var(--rarity-common);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pick-list__item label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 4px 6px;
+  border-radius: var(--r);
+  cursor: pointer;
+}
+.pick-list__item label:hover {
+  background: var(--paper);
+}
+.pick-list__item--uncommon {
+  --rarity: var(--rarity-uncommon);
+}
+.pick-list__item--rare {
+  --rarity: var(--rarity-rare);
+}
+.pick-list__item--super_rare {
+  --rarity: var(--rarity-super_rare);
+}
+.pick-list__item--legendary {
+  --rarity: var(--rarity-legendary);
+}
+.pick-list__rarity {
+  min-width: 26px;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--rarity);
+  text-decoration: none;
+}
+.trade-builder {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+.trade-builder__side {
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-lg);
+  padding: 14px;
+  display: grid;
+  gap: 10px;
+  background: var(--card);
+}
+.trade-builder__side legend {
+  padding: 0 6px;
+  font-weight: 600;
+}
+.trade-builder__submit {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+}

@@ -28,12 +28,7 @@ export default class CardsController {
 
     const free = await UserCard.query()
       .where({ userId: user.id, cardId: card.id })
-      .whereNotExists((open) =>
-        open
-          .from('auctions')
-          .whereColumn('auctions.user_card_id', 'user_cards.id')
-          .where('auctions.status', 'open')
-      )
+      .withScopes((scopes) => scopes.free())
       .count('* as total')
       .firstOrFail()
     const openAuctions = await Auction.query()

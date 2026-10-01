@@ -6,7 +6,7 @@
 
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
-import type { AuctionStatus, QualityLabel, Rarity, WalletKind } from '#config/game'
+import type { AuctionStatus, QualityLabel, Rarity, TradeStatus, WalletKind } from '#config/game'
 
 export class AuctionSchema extends BaseModel {
   static $columns = ['bidsCount', 'cardId', 'createdAt', 'currentPrice', 'endsAt', 'id', 'leaderId', 'sellerId', 'settledAt', 'startingPrice', 'status', 'updatedAt', 'userCardId'] as const
@@ -146,6 +146,42 @@ export class TagSchema extends BaseModel {
   declare updatedAt: DateTime | null
   @column()
   declare userId: number
+}
+
+export class TradeItemSchema extends BaseModel {
+  static $columns = ['cardId', 'id', 'ownerId', 'tradeId', 'userCardId'] as const
+  $columns = TradeItemSchema.$columns
+  @column()
+  declare cardId: number
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare ownerId: number
+  @column()
+  declare tradeId: number
+  @column()
+  declare userCardId: number | null
+}
+
+export class TradeSchema extends BaseModel {
+  static $columns = ['createdAt', 'expiresAt', 'id', 'proposerId', 'recipientId', 'respondedAt', 'status', 'updatedAt'] as const
+  $columns = TradeSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column.dateTime()
+  declare expiresAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare proposerId: number
+  @column()
+  declare recipientId: number
+  @column.dateTime()
+  declare respondedAt: DateTime | null
+  @column()
+  declare status: TradeStatus
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
 }
 
 export class UserCardSchema extends BaseModel {

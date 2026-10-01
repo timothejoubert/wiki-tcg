@@ -144,6 +144,42 @@ const routes = {
     tokens: [{"old":"/auctions/:id/cancel","type":0,"val":"auctions","end":""},{"old":"/auctions/:id/cancel","type":1,"val":"id","end":""},{"old":"/auctions/:id/cancel","type":0,"val":"cancel","end":""}],
     types: placeholder as Registry['auctions.cancel']['types'],
   },
+  'trades.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/trades',
+    tokens: [{"old":"/trades","type":0,"val":"trades","end":""}],
+    types: placeholder as Registry['trades.index']['types'],
+  },
+  'trades.create': {
+    methods: ["GET","HEAD"],
+    pattern: '/trades/new',
+    tokens: [{"old":"/trades/new","type":0,"val":"trades","end":""},{"old":"/trades/new","type":0,"val":"new","end":""}],
+    types: placeholder as Registry['trades.create']['types'],
+  },
+  'trades.store': {
+    methods: ["POST"],
+    pattern: '/trades',
+    tokens: [{"old":"/trades","type":0,"val":"trades","end":""}],
+    types: placeholder as Registry['trades.store']['types'],
+  },
+  'trades.accept': {
+    methods: ["POST"],
+    pattern: '/trades/:id/accept',
+    tokens: [{"old":"/trades/:id/accept","type":0,"val":"trades","end":""},{"old":"/trades/:id/accept","type":1,"val":"id","end":""},{"old":"/trades/:id/accept","type":0,"val":"accept","end":""}],
+    types: placeholder as Registry['trades.accept']['types'],
+  },
+  'trades.decline': {
+    methods: ["POST"],
+    pattern: '/trades/:id/decline',
+    tokens: [{"old":"/trades/:id/decline","type":0,"val":"trades","end":""},{"old":"/trades/:id/decline","type":1,"val":"id","end":""},{"old":"/trades/:id/decline","type":0,"val":"decline","end":""}],
+    types: placeholder as Registry['trades.decline']['types'],
+  },
+  'trades.cancel': {
+    methods: ["POST"],
+    pattern: '/trades/:id/cancel',
+    tokens: [{"old":"/trades/:id/cancel","type":0,"val":"trades","end":""},{"old":"/trades/:id/cancel","type":1,"val":"id","end":""},{"old":"/trades/:id/cancel","type":0,"val":"cancel","end":""}],
+    types: placeholder as Registry['trades.cancel']['types'],
+  },
   'tags.store': {
     methods: ["POST"],
     pattern: '/tags',
