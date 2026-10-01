@@ -223,6 +223,66 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/wallet_controller').default['sell']>>>
     }
   }
+  'auctions.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/auctions'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/auction').auctionFiltersValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auctions_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auctions_controller').default['index']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'auctions.store': {
+    methods: ["POST"]
+    pattern: '/auctions'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/auction').createAuctionValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/auction').createAuctionValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auctions_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auctions_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'auctions.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/auctions/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auctions_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auctions_controller').default['show']>>>
+    }
+  }
+  'auctions.bid': {
+    methods: ["POST"]
+    pattern: '/auctions/:id/bids'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/auction').bidValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/auction').bidValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auctions_controller').default['bid']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auctions_controller').default['bid']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'auctions.cancel': {
+    methods: ["POST"]
+    pattern: '/auctions/:id/cancel'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auctions_controller').default['cancel']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auctions_controller').default['cancel']>>>
+    }
+  }
   'tags.store': {
     methods: ["POST"]
     pattern: '/tags'

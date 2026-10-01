@@ -117,7 +117,7 @@ export default class BoosterService {
             locked,
             gameConfig.economy.newCardBonus[rarity],
             'new_card',
-            cardId
+            { cardId }
           )
         }
       }

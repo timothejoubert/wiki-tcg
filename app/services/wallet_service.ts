@@ -44,7 +44,7 @@ export default class WalletService {
     user: User,
     amount: number,
     kind: WalletKind,
-    cardId: number | null = null
+    refs: { cardId?: number | null; auctionId?: number | null } = {}
   ) {
     if (amount === 0) {
       return null
@@ -58,7 +58,14 @@ export default class WalletService {
     await user.save()
 
     return WalletTransaction.create(
-      { userId: user.id, amount, kind, balanceAfter: user.balance, cardId },
+      {
+        userId: user.id,
+        amount,
+        kind,
+        balanceAfter: user.balance,
+        cardId: refs.cardId ?? null,
+        auctionId: refs.auctionId ?? null,
+      },
       { client: trx }
     )
   }
@@ -88,12 +95,20 @@ export default class WalletService {
 
   /**
    * Sells one spare copy of a card to the bank. The newest copy goes first.
+   * Copies listed in an open auction do not count: two free copies are
+   * needed so the player keeps one whatever the auction outcome.
    */
   async sellDuplicate(user: User, cardId: number): Promise<number> {
     return db.transaction(async (trx) => {
       const locked = await this.lock(trx, user.id)
       const copies = await UserCard.query({ client: trx })
         .where({ userId: user.id, cardId })
+        .whereNotExists((open) =>
+          open
+            .from('auctions')
+            .whereColumn('auctions.user_card_id', 'user_cards.id')
+            .where('auctions.status', 'open')
+        )
         .orderBy('obtained_at', 'desc')
         .orderBy('id', 'desc')
         .forUpdate()
@@ -104,7 +119,7 @@ export default class WalletService {
       const card = await Card.findOrFail(cardId, { client: trx })
       const price = economy.bankSale[card.rarity]
       await copies[0].delete()
-      await this.apply(trx, locked, price, 'bank_sale', cardId)
+      await this.apply(trx, locked, price, 'bank_sale', { cardId })
       return price
     })
   }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Coins, Library, LogOut, Package } from 'lucide-vue-next'
+import { Coins, Gavel, Library, LogOut, Package } from 'lucide-vue-next'
 import { usePage } from '@inertiajs/vue3'
 import { Form, Link } from '@adonisjs/inertia/vue'
 import { formatWikis } from '~/lib/game'
@@ -15,6 +15,7 @@ import NavLink, { type NavItem } from '~/components/nav_link.vue'
 const nav: NavItem[] = [
   { label: 'Boosters', route: 'dashboard', icon: Package },
   { label: 'Collection', route: 'collection', icon: Library },
+  { label: 'Enchères', route: 'auctions.index', icon: Gavel },
 ]
 
 const page = usePage()

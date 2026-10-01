@@ -33,6 +33,13 @@ export interface ApiDefinition {
     }
     sell: typeof routes['cards.sell']
   }
+  auctions: {
+    index: typeof routes['auctions.index']
+    store: typeof routes['auctions.store']
+    show: typeof routes['auctions.show']
+    bid: typeof routes['auctions.bid']
+    cancel: typeof routes['auctions.cancel']
+  }
   tags: {
     store: typeof routes['tags.store']
     destroy: typeof routes['tags.destroy']

@@ -8,7 +8,16 @@ import CardItem from '~/components/card_item.vue'
 import AppLayout from '~/layouts/app.vue'
 import { formatNumber, formatWikis, rarityLabels } from '~/lib/game'
 
-const props = defineProps<{ card: Data.Card; tags: Data.Tag[]; salePrice: number }>()
+const props = defineProps<{
+  card: Data.Card
+  tags: Data.Tag[]
+  salePrice: number
+  freeCopies: number
+  openAuctionIds: number[]
+  auctionRules: { minStartingPrice: number; durationsHours: number[] }
+}>()
+
+const durationLabel = (hours: number) => (hours % 24 === 0 ? `${hours / 24} j` : `${hours} h`)
 
 const qualityLabels = { featured: 'Article de qualité', good: 'Bon article' } as const
 const owned = computed(() => (props.card.copies ?? 0) > 0)
@@ -52,7 +61,7 @@ const available = computed(() => {
           </Form>
 
           <Form
-            v-if="(card.copies ?? 0) > 1"
+            v-if="freeCopies > 1"
             v-slot="{ processing }"
             route="cards.sell"
             :params="{ id: card.id }"
@@ -63,6 +72,54 @@ const available = computed(() => {
               Revendre un doublon · +{{ formatWikis(salePrice) }}
             </button>
           </Form>
+
+          <section v-if="owned" class="card-auction" aria-labelledby="card-auction-title">
+            <h2 id="card-auction-title" class="card-tags__title">Vendre aux enchères</h2>
+            <p v-for="id in openAuctionIds" :key="id" class="card-auction__open">
+              <Link route="auctions.show" :params="{ id }" class="il">Voir ta vente en cours</Link>
+            </p>
+            <Form
+              v-if="freeCopies > 0"
+              v-slot="{ processing, errors }"
+              route="auctions.store"
+              class="card-auction__form"
+            >
+              <input type="hidden" name="cardId" :value="card.id" />
+              <div class="field">
+                <label class="field__label" for="startingPrice">Prix de départ</label>
+                <input
+                  id="startingPrice"
+                  name="startingPrice"
+                  type="number"
+                  class="field__input"
+                  :min="auctionRules.minStartingPrice"
+                  :value="Math.max(auctionRules.minStartingPrice, salePrice * 2)"
+                  :aria-invalid="errors.startingPrice ? 'true' : 'false'"
+                  required
+                />
+                <span v-if="errors.startingPrice" class="field__error">{{
+                  errors.startingPrice
+                }}</span>
+              </div>
+              <div class="field">
+                <label class="field__label" for="durationHours">Durée</label>
+                <select id="durationHours" name="durationHours" class="field__input">
+                  <option
+                    v-for="hours in auctionRules.durationsHours"
+                    :key="hours"
+                    :value="hours"
+                    :selected="hours === 24"
+                  >
+                    {{ durationLabel(hours) }}
+                  </option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn--secondary btn--sm" :disabled="processing">
+                Mettre en vente
+              </button>
+            </Form>
+            <p v-else class="card-tags__empty">Tous tes exemplaires sont déjà en vente.</p>
+          </section>
 
           <dl class="card-detail__list">
             <div>

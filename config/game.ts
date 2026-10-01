@@ -17,6 +17,9 @@ export const WALLET_KINDS = [
 ] as const
 export type WalletKind = (typeof WALLET_KINDS)[number]
 
+export const AUCTION_STATUSES = ['open', 'sold', 'unsold', 'cancelled'] as const
+export type AuctionStatus = (typeof AUCTION_STATUSES)[number]
+
 export const QUALITY_LABELS = ['featured', 'good'] as const
 export type QualityLabel = (typeof QUALITY_LABELS)[number]
 
@@ -105,6 +108,10 @@ const gameConfig = {
     auctions: {
       minStartingPrice: 10,
       durationsHours: [1, 6, 24, 72],
+      /**
+       * A new bid must beat the current one by this share, at least 1 wiki.
+       */
+      minIncrementRatio: 0.05,
     },
     trades: {
       expiresAfterHours: 48,

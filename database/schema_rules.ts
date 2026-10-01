@@ -4,6 +4,15 @@ const gameTypes = { source: '#config/game' }
 
 export default {
   tables: {
+    auctions: {
+      columns: {
+        status: {
+          tsType: 'AuctionStatus',
+          imports: [{ ...gameTypes, typeImports: ['AuctionStatus'] }],
+          decorators: [{ name: '@column' }],
+        },
+      },
+    },
     wallet_transactions: {
       columns: {
         kind: {

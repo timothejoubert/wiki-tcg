@@ -4,6 +4,7 @@
  */
 
 export const controllers = {
+  Auctions: () => import('#controllers/auctions_controller'),
   Boosters: () => import('#controllers/boosters_controller'),
   Cards: () => import('#controllers/cards_controller'),
   Collection: () => import('#controllers/collection_controller'),

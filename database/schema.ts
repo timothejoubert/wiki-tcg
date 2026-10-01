@@ -6,7 +6,53 @@
 
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
-import type { QualityLabel, Rarity, WalletKind } from '#config/game'
+import type { AuctionStatus, QualityLabel, Rarity, WalletKind } from '#config/game'
+
+export class AuctionSchema extends BaseModel {
+  static $columns = ['bidsCount', 'cardId', 'createdAt', 'currentPrice', 'endsAt', 'id', 'leaderId', 'sellerId', 'settledAt', 'startingPrice', 'status', 'updatedAt', 'userCardId'] as const
+  $columns = AuctionSchema.$columns
+  @column()
+  declare bidsCount: number
+  @column()
+  declare cardId: number
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare currentPrice: number | null
+  @column.dateTime()
+  declare endsAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare leaderId: number | null
+  @column()
+  declare sellerId: number
+  @column.dateTime()
+  declare settledAt: DateTime | null
+  @column()
+  declare startingPrice: number
+  @column()
+  declare status: AuctionStatus
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userCardId: number
+}
+
+export class BidSchema extends BaseModel {
+  static $columns = ['amount', 'auctionId', 'bidderId', 'createdAt', 'id'] as const
+  $columns = BidSchema.$columns
+  @column()
+  declare amount: number
+  @column()
+  declare auctionId: number
+  @column()
+  declare bidderId: number
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+}
 
 export class BoosterOpeningSchema extends BaseModel {
   static $columns = ['id', 'openedAt', 'userId'] as const
@@ -145,10 +191,12 @@ export class UserSchema extends BaseModel {
 }
 
 export class WalletTransactionSchema extends BaseModel {
-  static $columns = ['amount', 'balanceAfter', 'cardId', 'createdAt', 'id', 'kind', 'userId'] as const
+  static $columns = ['amount', 'auctionId', 'balanceAfter', 'cardId', 'createdAt', 'id', 'kind', 'userId'] as const
   $columns = WalletTransactionSchema.$columns
   @column()
   declare amount: number
+  @column()
+  declare auctionId: number | null
   @column()
   declare balanceAfter: number
   @column()

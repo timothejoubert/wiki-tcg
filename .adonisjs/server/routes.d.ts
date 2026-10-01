@@ -22,6 +22,11 @@ export type ScannedRoutes = {
     'cards.tags.attach': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'cards.tags.detach': { paramsTuple: [ParamValue,ParamValue]; params: {'id': ParamValue,'tagId': ParamValue} }
     'cards.sell': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'auctions.index': { paramsTuple?: []; params?: {} }
+    'auctions.store': { paramsTuple?: []; params?: {} }
+    'auctions.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'auctions.bid': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'auctions.cancel': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'tags.store': { paramsTuple?: []; params?: {} }
     'tags.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'session.destroy': { paramsTuple?: []; params?: {} }
@@ -37,6 +42,8 @@ export type ScannedRoutes = {
     'boosters.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection': { paramsTuple?: []; params?: {} }
     'cards.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'auctions.index': { paramsTuple?: []; params?: {} }
+    'auctions.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   HEAD: {
     'home': { paramsTuple?: []; params?: {} }
@@ -49,6 +56,8 @@ export type ScannedRoutes = {
     'boosters.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection': { paramsTuple?: []; params?: {} }
     'cards.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'auctions.index': { paramsTuple?: []; params?: {} }
+    'auctions.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   POST: {
     'new_account.store': { paramsTuple?: []; params?: {} }
@@ -58,6 +67,9 @@ export type ScannedRoutes = {
     'cards.favorite': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'cards.tags.attach': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'cards.sell': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'auctions.store': { paramsTuple?: []; params?: {} }
+    'auctions.bid': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'auctions.cancel': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'tags.store': { paramsTuple?: []; params?: {} }
     'session.destroy': { paramsTuple?: []; params?: {} }
   }

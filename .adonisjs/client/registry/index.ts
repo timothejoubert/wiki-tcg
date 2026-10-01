@@ -114,6 +114,36 @@ const routes = {
     tokens: [{"old":"/cards/:id/sell","type":0,"val":"cards","end":""},{"old":"/cards/:id/sell","type":1,"val":"id","end":""},{"old":"/cards/:id/sell","type":0,"val":"sell","end":""}],
     types: placeholder as Registry['cards.sell']['types'],
   },
+  'auctions.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/auctions',
+    tokens: [{"old":"/auctions","type":0,"val":"auctions","end":""}],
+    types: placeholder as Registry['auctions.index']['types'],
+  },
+  'auctions.store': {
+    methods: ["POST"],
+    pattern: '/auctions',
+    tokens: [{"old":"/auctions","type":0,"val":"auctions","end":""}],
+    types: placeholder as Registry['auctions.store']['types'],
+  },
+  'auctions.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/auctions/:id',
+    tokens: [{"old":"/auctions/:id","type":0,"val":"auctions","end":""},{"old":"/auctions/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['auctions.show']['types'],
+  },
+  'auctions.bid': {
+    methods: ["POST"],
+    pattern: '/auctions/:id/bids',
+    tokens: [{"old":"/auctions/:id/bids","type":0,"val":"auctions","end":""},{"old":"/auctions/:id/bids","type":1,"val":"id","end":""},{"old":"/auctions/:id/bids","type":0,"val":"bids","end":""}],
+    types: placeholder as Registry['auctions.bid']['types'],
+  },
+  'auctions.cancel': {
+    methods: ["POST"],
+    pattern: '/auctions/:id/cancel',
+    tokens: [{"old":"/auctions/:id/cancel","type":0,"val":"auctions","end":""},{"old":"/auctions/:id/cancel","type":1,"val":"id","end":""},{"old":"/auctions/:id/cancel","type":0,"val":"cancel","end":""}],
+    types: placeholder as Registry['auctions.cancel']['types'],
+  },
   'tags.store': {
     methods: ["POST"],
     pattern: '/tags',

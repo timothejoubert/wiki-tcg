@@ -61,6 +61,21 @@ router
       .as('cards.sell')
       .where('id', router.matchers.number())
 
+    router.get('/auctions', [controllers.Auctions, 'index']).as('auctions.index')
+    router.post('/auctions', [controllers.Auctions, 'store']).as('auctions.store')
+    router
+      .get('/auctions/:id', [controllers.Auctions, 'show'])
+      .as('auctions.show')
+      .where('id', router.matchers.number())
+    router
+      .post('/auctions/:id/bids', [controllers.Auctions, 'bid'])
+      .as('auctions.bid')
+      .where('id', router.matchers.number())
+    router
+      .post('/auctions/:id/cancel', [controllers.Auctions, 'cancel'])
+      .as('auctions.cancel')
+      .where('id', router.matchers.number())
+
     router.post('/tags', [controllers.Tags, 'store']).as('tags.store')
     router
       .delete('/tags/:id', [controllers.Tags, 'destroy'])

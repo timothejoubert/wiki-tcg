@@ -21,3 +21,8 @@ scheduler.command('cards:harvest', ['--top']).dailyAt('03:00').timezone('UTC').w
  * Rares, which only random batches surface (~3 % of articles).
  */
 scheduler.command('cards:harvest', ['--random=30']).hourlyAt(20).withoutOverlapping()
+
+/**
+ * Auctions also settle when their page is viewed; this catches the rest.
+ */
+scheduler.command('auctions:settle').everyMinute().withoutOverlapping()
