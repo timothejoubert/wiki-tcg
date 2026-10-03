@@ -46,6 +46,7 @@ export interface ApiDefinition {
       detach: typeof routes['cards.tags.detach']
     }
     sell: typeof routes['cards.sell']
+    wish: typeof routes['cards.wish']
   }
   auctions: {
     index: typeof routes['auctions.index']
@@ -63,6 +64,7 @@ export interface ApiDefinition {
     cancel: typeof routes['trades.cancel']
   }
   notifications: typeof routes['notifications']
+  wishlist: typeof routes['wishlist']
   players: {
     index: typeof routes['players.index']
     show: typeof routes['players.show']

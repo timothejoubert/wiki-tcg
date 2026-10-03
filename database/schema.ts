@@ -288,3 +288,16 @@ export class WalletTransactionSchema extends BaseModel {
   @column()
   declare userId: number
 }
+
+export class WishlistItemSchema extends BaseModel {
+  static $columns = ['cardId', 'createdAt', 'id', 'userId'] as const
+  $columns = WishlistItemSchema.$columns
+  @column()
+  declare cardId: number
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare userId: number
+}

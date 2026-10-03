@@ -19,4 +19,5 @@ export const controllers = {
   Tags: () => import('#controllers/tags_controller'),
   Trades: () => import('#controllers/trades_controller'),
   Wallet: () => import('#controllers/wallet_controller'),
+  Wishlist: () => import('#controllers/wishlist_controller'),
 }

@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import type { Data } from '@generated/data'
 import { Form, Link } from '@adonisjs/inertia/vue'
-import { Star, X } from 'lucide-vue-next'
+import { Heart, Star, X } from 'lucide-vue-next'
 import Page from '~/components/page.vue'
 import CardItem from '~/components/card_item.vue'
 import AppLayout from '~/layouts/app.vue'
@@ -16,6 +16,7 @@ const props = defineProps<{
   openAuctionIds: number[]
   auctionRules: { minStartingPrice: number; durationsHours: number[] }
   owners: { username: string; copies: number }[]
+  wished: boolean
 }>()
 
 const durationLabel = (hours: number) => (hours % 24 === 0 ? `${hours / 24} j` : `${hours} h`)
@@ -121,6 +122,24 @@ const available = computed(() => {
             </Form>
             <p v-else class="card-tags__empty">Tous tes exemplaires sont déjà en vente.</p>
           </section>
+
+          <Form
+            v-slot="{ processing }"
+            route="cards.wish"
+            :params="{ id: card.id }"
+            :options="{ preserveScroll: true }"
+            class="card-detail__wish"
+          >
+            <button
+              type="submit"
+              class="btn btn--secondary btn--sm"
+              :aria-pressed="wished ? 'true' : 'false'"
+              :disabled="processing"
+            >
+              <Heart :size="15" :fill="wished ? 'currentColor' : 'none'" aria-hidden="true" />
+              {{ wished ? 'Retirer de mes souhaits' : 'Je la cherche' }}
+            </button>
+          </Form>
 
           <dl class="card-detail__list">
             <div>

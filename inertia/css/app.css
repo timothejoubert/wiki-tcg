@@ -2557,3 +2557,47 @@ input {
     grid-column: 2;
   }
 }
+
+/* Wishlist ------------------------------------------------------------- */
+
+.card-detail__wish {
+  margin-bottom: 20px;
+}
+.wish-list {
+  list-style: none;
+  display: grid;
+  gap: 20px;
+}
+.wish {
+  display: grid;
+  grid-template-columns: minmax(0, 200px) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+  padding: 16px;
+  background: var(--card);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-lg);
+}
+.wish__info {
+  display: grid;
+  gap: 10px;
+}
+.wish__owned {
+  font-weight: 600;
+  color: var(--ok);
+}
+.wish__spare {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ok);
+}
+.wish__remove {
+  font-size: 13px;
+  color: var(--muted);
+}
+@media (max-width: 640px) {
+  .wish {
+    grid-template-columns: minmax(0, 140px) minmax(0, 1fr);
+    gap: 14px;
+  }
+}

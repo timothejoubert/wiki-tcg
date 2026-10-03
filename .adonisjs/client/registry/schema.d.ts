@@ -451,6 +451,30 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/notifications_controller').default['index']>>>
     }
   }
+  'wishlist': {
+    methods: ["GET","HEAD"]
+    pattern: '/souhaits'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/wishlist_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/wishlist_controller').default['index']>>>
+    }
+  }
+  'cards.wish': {
+    methods: ["POST"]
+    pattern: '/cards/:id/wish'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/wishlist_controller').default['toggle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/wishlist_controller').default['toggle']>>>
+    }
+  }
   'players.index': {
     methods: ["GET","HEAD"]
     pattern: '/joueurs'

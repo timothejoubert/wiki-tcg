@@ -34,5 +34,6 @@ declare module '@adonisjs/inertia/types' {
     'trades/index': ExtractProps<(typeof import('../../inertia/pages/trades/index.vue'))['default']>
     'trades/new': ExtractProps<(typeof import('../../inertia/pages/trades/new.vue'))['default']>
     'wallet': ExtractProps<(typeof import('../../inertia/pages/wallet.vue'))['default']>
+    'wishlist': ExtractProps<(typeof import('../../inertia/pages/wishlist.vue'))['default']>
   }
 }

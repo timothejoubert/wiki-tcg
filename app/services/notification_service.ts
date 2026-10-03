@@ -46,6 +46,11 @@ export function describe(type: NotificationType, data: Data): { text: string; ur
       }
     case 'trade_declined':
       return { text: `${data.username} a refusé ton échange.`, url: '/trades?box=history' }
+    case 'wishlist_auction':
+      return {
+        text: `${card}, que tu cherches, vient d'être mise aux enchères par ${data.username}.`,
+        url: `/auctions/${data.auctionId}`,
+      }
   }
 }
 

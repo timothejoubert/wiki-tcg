@@ -41,6 +41,8 @@ export type ScannedRoutes = {
     'trades.decline': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'trades.cancel': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'notifications': { paramsTuple?: []; params?: {} }
+    'wishlist': { paramsTuple?: []; params?: {} }
+    'cards.wish': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'players.index': { paramsTuple?: []; params?: {} }
     'players.show': { paramsTuple: [ParamValue]; params: {'username': ParamValue} }
     'settings': { paramsTuple?: []; params?: {} }
@@ -77,6 +79,7 @@ export type ScannedRoutes = {
     'trades.index': { paramsTuple?: []; params?: {} }
     'trades.create': { paramsTuple?: []; params?: {} }
     'notifications': { paramsTuple?: []; params?: {} }
+    'wishlist': { paramsTuple?: []; params?: {} }
     'players.index': { paramsTuple?: []; params?: {} }
     'players.show': { paramsTuple: [ParamValue]; params: {'username': ParamValue} }
     'settings': { paramsTuple?: []; params?: {} }
@@ -103,6 +106,7 @@ export type ScannedRoutes = {
     'trades.index': { paramsTuple?: []; params?: {} }
     'trades.create': { paramsTuple?: []; params?: {} }
     'notifications': { paramsTuple?: []; params?: {} }
+    'wishlist': { paramsTuple?: []; params?: {} }
     'players.index': { paramsTuple?: []; params?: {} }
     'players.show': { paramsTuple: [ParamValue]; params: {'username': ParamValue} }
     'settings': { paramsTuple?: []; params?: {} }
@@ -125,6 +129,7 @@ export type ScannedRoutes = {
     'trades.accept': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'trades.decline': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'trades.cancel': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'cards.wish': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'tags.store': { paramsTuple?: []; params?: {} }
     'collection.bulk': { paramsTuple?: []; params?: {} }
     'collection.recycle': { paramsTuple?: []; params?: {} }

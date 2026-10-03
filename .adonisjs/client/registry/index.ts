@@ -228,6 +228,18 @@ const routes = {
     tokens: [{"old":"/notifications","type":0,"val":"notifications","end":""}],
     types: placeholder as Registry['notifications']['types'],
   },
+  'wishlist': {
+    methods: ["GET","HEAD"],
+    pattern: '/souhaits',
+    tokens: [{"old":"/souhaits","type":0,"val":"souhaits","end":""}],
+    types: placeholder as Registry['wishlist']['types'],
+  },
+  'cards.wish': {
+    methods: ["POST"],
+    pattern: '/cards/:id/wish',
+    tokens: [{"old":"/cards/:id/wish","type":0,"val":"cards","end":""},{"old":"/cards/:id/wish","type":1,"val":"id","end":""},{"old":"/cards/:id/wish","type":0,"val":"wish","end":""}],
+    types: placeholder as Registry['cards.wish']['types'],
+  },
   'players.index': {
     methods: ["GET","HEAD"],
     pattern: '/joueurs',

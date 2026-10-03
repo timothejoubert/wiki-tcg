@@ -107,6 +107,11 @@ router
     }
 
     router.get('/notifications', [controllers.Notifications, 'index']).as('notifications')
+    router.get('/souhaits', [controllers.Wishlist, 'index']).as('wishlist')
+    router
+      .post('/cards/:id/wish', [controllers.Wishlist, 'toggle'])
+      .as('cards.wish')
+      .where('id', router.matchers.number())
     router.get('/joueurs', [controllers.Players, 'index']).as('players.index')
     router.get('/joueurs/:username', [controllers.Players, 'show']).as('players.show')
     router.get('/reglages', [controllers.Settings, 'edit']).as('settings')

@@ -4,6 +4,7 @@ import {
   Bell,
   Coins,
   Gavel,
+  Heart,
   Library,
   LogOut,
   Package,
@@ -27,6 +28,7 @@ const nav: NavItem[] = [
   { label: 'Collection', route: 'collection', icon: Library },
   { label: 'Enchères', route: 'auctions.index', icon: Gavel },
   { label: 'Échanges', route: 'trades.index', icon: ArrowLeftRight },
+  { label: 'Souhaits', route: 'wishlist', icon: Heart },
   { label: 'Joueurs', route: 'players.index', icon: Users },
 ]
 

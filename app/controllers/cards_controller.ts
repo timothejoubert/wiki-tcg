@@ -5,13 +5,18 @@ import UserCard from '#models/user_card'
 import CardTransformer from '#transformers/card_transformer'
 import TagTransformer from '#transformers/tag_transformer'
 import CollectionService from '#services/collection_service'
+import WishlistService from '#services/wishlist_service'
 import gameConfig from '#config/game'
 import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class CardsController {
   @inject()
-  async show({ inertia, auth, params }: HttpContext, collection: CollectionService) {
+  async show(
+    { inertia, auth, params }: HttpContext,
+    collection: CollectionService,
+    wishlist: WishlistService
+  ) {
     const user = auth.getUserOrFail()
     const card = await Card.query()
       .select('cards.*')
@@ -41,6 +46,7 @@ export default class CardsController {
       salePrice: gameConfig.economy.bankSale[card.rarity],
       freeCopies: Number(free.$extras.total),
       owners: await collection.publicOwners(card.id, user.id),
+      wished: await wishlist.has(user, card.id),
       openAuctionIds: openAuctions.map((auction) => auction.id),
       auctionRules: {
         minStartingPrice: gameConfig.economy.auctions.minStartingPrice,

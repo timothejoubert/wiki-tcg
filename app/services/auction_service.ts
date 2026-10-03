@@ -11,6 +11,7 @@ import gameConfig from '#config/game'
 import WalletService from '#services/wallet_service'
 import NotificationService from '#services/notification_service'
 import Card from '#models/card'
+import WishlistItem from '#models/wishlist_item'
 
 const { auctions } = gameConfig.economy
 
@@ -88,7 +89,7 @@ export default class AuctionService {
         throw new NoCopyAvailableError()
       }
 
-      return Auction.create(
+      const auction = await Auction.create(
         {
           sellerId: seller.id,
           userCardId: copy.id,
@@ -103,6 +104,20 @@ export default class AuctionService {
         },
         { client: trx }
       )
+
+      // Tell the players looking for this card
+      const card = await Card.findOrFail(cardId, { client: trx })
+      const wishers = await WishlistItem.query({ client: trx })
+        .where('card_id', cardId)
+        .whereNot('user_id', seller.id)
+      for (const wish of wishers) {
+        await this.notifications.notify(trx, wish.userId, 'wishlist_auction', {
+          auctionId: auction.id,
+          cardTitle: card.title,
+          username: seller.username,
+        })
+      }
+      return auction
     })
   }
 

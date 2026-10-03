@@ -31,6 +31,7 @@ export const NOTIFICATION_TYPES = [
   'trade_received',
   'trade_accepted',
   'trade_declined',
+  'wishlist_auction',
 ] as const
 export type NotificationType = (typeof NOTIFICATION_TYPES)[number]
 

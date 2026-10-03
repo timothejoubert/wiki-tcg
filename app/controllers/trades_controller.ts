@@ -57,6 +57,7 @@ export default class TradesController {
           ? CardTransformer.transform(await this.trades.tradableCards(recipient.id))
           : [],
       maxCardsPerSide: gameConfig.economy.trades.maxCardsPerSide,
+      want: Number(request.qs().want) || null,
     })
   }
 

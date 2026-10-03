@@ -13,10 +13,13 @@ const props = defineProps<{
   mine: Data.Card[]
   theirs: Data.Card[]
   maxCardsPerSide: number
+  want: number | null
 }>()
 
 const offered = ref<number[]>([])
-const requested = ref<number[]>([])
+const requested = ref<number[]>(
+  props.want && props.theirs.some((card) => card.id === props.want) ? [props.want] : []
+)
 const mineFilter = ref('')
 const theirsFilter = ref('')
 
