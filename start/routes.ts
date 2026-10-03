@@ -121,6 +121,7 @@ router
       .as('tags.update')
       .where('id', router.matchers.number())
     router.post('/collection/bulk', [controllers.Collection, 'bulk']).as('collection.bulk')
+    router.post('/collection/recycle', [controllers.Collection, 'recycle']).as('collection.recycle')
     router
       .delete('/tags/:id', [controllers.Tags, 'destroy'])
       .as('tags.destroy')

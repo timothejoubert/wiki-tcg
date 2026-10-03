@@ -2378,3 +2378,17 @@ input {
     clip: rect(0, 0, 0, 0);
   }
 }
+
+/* Recycling ------------------------------------------------------------ */
+
+.recycle-confirm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r);
+  background: var(--card);
+  font-size: 13.5px;
+}

@@ -276,6 +276,12 @@ const routes = {
     tokens: [{"old":"/collection/bulk","type":0,"val":"collection","end":""},{"old":"/collection/bulk","type":0,"val":"bulk","end":""}],
     types: placeholder as Registry['collection.bulk']['types'],
   },
+  'collection.recycle': {
+    methods: ["POST"],
+    pattern: '/collection/recycle',
+    tokens: [{"old":"/collection/recycle","type":0,"val":"collection","end":""},{"old":"/collection/recycle","type":0,"val":"recycle","end":""}],
+    types: placeholder as Registry['collection.recycle']['types'],
+  },
   'tags.destroy': {
     methods: ["DELETE"],
     pattern: '/tags/:id',

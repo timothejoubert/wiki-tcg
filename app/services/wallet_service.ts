@@ -6,7 +6,7 @@ import Card from '#models/card'
 import User from '#models/user'
 import UserCard from '#models/user_card'
 import WalletTransaction from '#models/wallet_transaction'
-import gameConfig, { type WalletKind } from '#config/game'
+import gameConfig, { type Rarity, type WalletKind } from '#config/game'
 import { refilledStock } from '#services/booster_stock'
 
 const { economy, boosters } = gameConfig
@@ -117,6 +117,81 @@ export default class WalletService {
       await this.apply(trx, locked, price, 'bank_sale', { cardId })
       return price
     })
+  }
+
+  /**
+   * Spare free copies of the player's cards, optionally limited to some
+   * cards: how many copies would go and what the bank would pay.
+   */
+  async recyclePreview(user: User, cardIds?: number[]) {
+    const rows = await this.spareCopies(db, user.id, cardIds)
+    return {
+      copies: rows.reduce((sum, row) => sum + row.spare, 0),
+      wikis: rows.reduce((sum, row) => sum + row.spare * economy.bankSale[row.rarity], 0),
+    }
+  }
+
+  /**
+   * Sells every spare free copy to the bank, keeping the oldest free copy
+   * of each card (same rule as `sellDuplicate`). One ledger row per card.
+   */
+  async recycleDuplicates(user: User, cardIds?: number[]) {
+    return db.transaction(async (trx) => {
+      const locked = await this.lock(trx, user.id)
+      const rows = await this.spareCopies(trx, user.id, cardIds)
+      let copies = 0
+      let wikis = 0
+
+      for (const row of rows) {
+        const free = await UserCard.query({ client: trx })
+          .where({ userId: user.id, cardId: row.card_id })
+          .withScopes((scopes) => scopes.free())
+          .orderBy('obtained_at', 'asc')
+          .orderBy('id', 'asc')
+          .forUpdate()
+        const spare = free.slice(1)
+        if (spare.length === 0) continue
+
+        await UserCard.query({ client: trx })
+          .whereIn(
+            'id',
+            spare.map((copy) => copy.id)
+          )
+          .delete()
+        const amount = spare.length * economy.bankSale[row.rarity]
+        await this.apply(trx, locked, amount, 'bank_sale', { cardId: row.card_id })
+        copies += spare.length
+        wikis += amount
+      }
+
+      return { cards: rows.length, copies, wikis }
+    })
+  }
+
+  protected async spareCopies(
+    client: TransactionClientContract | typeof db,
+    userId: number,
+    cardIds?: number[]
+  ): Promise<{ card_id: number; rarity: Rarity; spare: number }[]> {
+    const query = client
+      .from('user_cards')
+      .join('cards', 'cards.id', 'user_cards.card_id')
+      .where('user_cards.user_id', userId)
+      .whereNotExists((open) =>
+        open
+          .from('auctions')
+          .whereColumn('auctions.user_card_id', 'user_cards.id')
+          .where('auctions.status', 'open')
+      )
+      .groupBy('user_cards.card_id', 'cards.rarity')
+      .havingRaw('count(*) > 1')
+      .select('user_cards.card_id', 'cards.rarity')
+      .select(client.raw('count(*) - 1 as spare'))
+    if (cardIds) {
+      query.whereIn('user_cards.card_id', cardIds)
+    }
+    const rows = await query
+    return rows.map((row: any) => ({ ...row, spare: Number(row.spare) }))
   }
 
   /**

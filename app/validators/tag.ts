@@ -36,7 +36,7 @@ export const bulkValidator = vine.create({
     .minLength(1)
     .maxLength(100)
     .distinct(),
-  action: vine.enum(['favorite', 'unfavorite', 'tag', 'untag'] as const),
+  action: vine.enum(['favorite', 'unfavorite', 'tag', 'untag', 'recycle'] as const),
   tagId: vine
     .number()
     .withoutDecimals()

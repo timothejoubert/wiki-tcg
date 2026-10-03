@@ -8,7 +8,7 @@ import Page from '~/components/page.vue'
 import CardItem from '~/components/card_item.vue'
 import ProgressionBand from '~/components/progression_band.vue'
 import AppLayout from '~/layouts/app.vue'
-import { rarities, rarityLabels, type Rarity } from '~/lib/game'
+import { formatWikis, rarities, rarityLabels, type Rarity } from '~/lib/game'
 
 type Filters = {
   rarity?: Rarity
@@ -29,6 +29,7 @@ const props = defineProps<{
     byRarity: Record<Rarity, { cards: number; copies: number }>
   }
   tags: Data.Tag[]
+  recycle: { copies: number; wikis: number }
 }>()
 
 const sorts = [
@@ -71,6 +72,7 @@ function stopSelecting() {
 }
 
 const renaming = ref<number | null>(null)
+const confirmingRecycle = ref(false)
 
 const hasFilters = () =>
   Boolean(
@@ -182,6 +184,34 @@ const hasFilters = () =>
       </p>
 
       <div v-if="cards.data.length" class="bulk-bar">
+        <template v-if="!selecting && recycle.copies > 0">
+          <button
+            v-if="!confirmingRecycle"
+            type="button"
+            class="btn btn--secondary btn--sm"
+            @click="confirmingRecycle = true"
+          >
+            Recycler mes doublons · +{{ formatWikis(recycle.wikis) }}
+          </button>
+          <Form
+            v-else
+            v-slot="{ processing }"
+            route="collection.recycle"
+            class="recycle-confirm"
+            :options="{ preserveScroll: true }"
+            @success="confirmingRecycle = false"
+          >
+            <span>
+              Revendre {{ recycle.copies }}
+              {{ recycle.copies > 1 ? 'exemplaires' : 'exemplaire' }} en trop pour
+              {{ formatWikis(recycle.wikis) }} ? Tu gardes un exemplaire de chaque carte.
+            </span>
+            <button type="submit" class="btn btn--primary btn--sm" :disabled="processing">
+              Confirmer
+            </button>
+            <button type="button" class="il" @click="confirmingRecycle = false">Annuler</button>
+          </Form>
+        </template>
         <button
           v-if="!selecting"
           type="button"
@@ -224,6 +254,15 @@ const hasFilters = () =>
               :disabled="processing || !selected.length"
             >
               Retirer des favoris
+            </button>
+            <button
+              type="submit"
+              name="action"
+              value="recycle"
+              class="btn btn--secondary btn--sm"
+              :disabled="processing || !selected.length"
+            >
+              Recycler les doublons
             </button>
             <template v-if="tags.length">
               <label class="visually-hidden" for="bulk-tag">Tag</label>

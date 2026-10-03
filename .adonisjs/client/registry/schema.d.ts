@@ -547,6 +547,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collection_controller').default['bulk']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'collection.recycle': {
+    methods: ["POST"]
+    pattern: '/collection/recycle'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/collection_controller').default['recycle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collection_controller').default['recycle']>>>
+    }
+  }
   'tags.destroy': {
     methods: ["DELETE"]
     pattern: '/tags/:id'

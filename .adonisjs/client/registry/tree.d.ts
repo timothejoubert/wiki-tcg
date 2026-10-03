@@ -34,6 +34,7 @@ export interface ApiDefinition {
   wallet: typeof routes['wallet']
   collection: typeof routes['collection'] & {
     bulk: typeof routes['collection.bulk']
+    recycle: typeof routes['collection.recycle']
   }
   cards: {
     show: typeof routes['cards.show']

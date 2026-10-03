@@ -19,7 +19,7 @@
   - Dans la page de reveal, une fois que toutes les cartes sont découvertes, il faut un button pour ouvrir les prochains paquet disponnible
 
 ## Déjà identifié
-- [ ] Fonctionnalité d'abandons/recyclage de carte groupé
+- [x] Fonctionnalité d'abandons/recyclage de carte groupé (recyclage des doublons, on garde toujours 1 exemplaire)
 - [ ] Charger les typographies du design (Unbounded, Inter, JetBrains Mono)
 - [ ] Figma : carte v5 (sans étiquette de rareté ni stats, format 5:7 comme dans l'app), puis écrans mobiles, au retour du quota MCP
 - [ ] Rédiger les conditions d'utilisation et les règles de la communauté (textes provisoires)

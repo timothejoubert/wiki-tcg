@@ -49,6 +49,7 @@ export type ScannedRoutes = {
     'tags.store': { paramsTuple?: []; params?: {} }
     'tags.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.bulk': { paramsTuple?: []; params?: {} }
+    'collection.recycle': { paramsTuple?: []; params?: {} }
     'tags.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'session.destroy': { paramsTuple?: []; params?: {} }
   }
@@ -117,6 +118,7 @@ export type ScannedRoutes = {
     'trades.cancel': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'tags.store': { paramsTuple?: []; params?: {} }
     'collection.bulk': { paramsTuple?: []; params?: {} }
+    'collection.recycle': { paramsTuple?: []; params?: {} }
     'session.destroy': { paramsTuple?: []; params?: {} }
   }
   DELETE: {
