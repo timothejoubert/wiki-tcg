@@ -1,30 +1,22 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import type { Data } from '@generated/data'
 import { Link } from '@adonisjs/inertia/vue'
 import Page from '~/components/page.vue'
 import CardItem from '~/components/card_item.vue'
-import CardBack from '~/components/card_back.vue'
 import BoosterPack from '~/components/booster_pack.vue'
+import RevealPile from '~/components/reveal_pile.vue'
 import AppLayout from '~/layouts/app.vue'
-import { rarityLabels, type Rarity } from '~/lib/game'
+import { prefersReducedMotion } from '~/lib/haptics'
 
 const props = defineProps<{ reveal: boolean; openedAt: string; cards: Data.Card[] }>()
 
 type Stage = 'sealed' | 'tearing' | 'revealing' | 'done'
 const stage = ref<Stage>(props.reveal ? 'sealed' : 'done')
-const flipped = ref<boolean[]>(props.cards.map(() => !props.reveal))
-const burst = ref<number | null>(null)
 const announcement = ref('')
 
-const loud: Rarity[] = ['rare', 'super_rare', 'legendary']
-const nextIndex = computed(() => flipped.value.findIndex((value) => !value))
-
 onMounted(() => {
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    stage.value = 'done'
-    flipped.value = props.cards.map(() => true)
-  }
+  if (prefersReducedMotion()) stage.value = 'done'
 })
 
 function openPack() {
@@ -32,24 +24,9 @@ function openPack() {
   setTimeout(() => (stage.value = 'revealing'), 650)
 }
 
-function flip(index: number) {
-  if (stage.value !== 'revealing' || index !== nextIndex.value) return
-  flipped.value[index] = true
-  const card = props.cards[index]
-  announcement.value = `Carte ${index + 1} sur ${props.cards.length} : ${card.title}, ${rarityLabels[card.rarity]}.`
-  if (loud.includes(card.rarity)) {
-    burst.value = index
-    setTimeout(() => burst.value === index && (burst.value = null), 1400)
-  }
-  if (flipped.value.every(Boolean)) {
-    setTimeout(() => (stage.value = 'done'), 700)
-  }
-}
-
-function flipAll() {
-  flipped.value = props.cards.map(() => true)
-  announcement.value = `Toutes les cartes sont retournées.`
+function finish() {
   stage.value = 'done'
+  announcement.value = 'Toutes les cartes sont révélées.'
 }
 </script>
 
@@ -64,7 +41,7 @@ function flipAll() {
           v-if="stage === 'revealing'"
           type="button"
           class="btn btn--secondary btn--sm"
-          @click="flipAll"
+          @click="finish"
         >
           Tout retourner
         </button>
@@ -78,51 +55,26 @@ function flipAll() {
 
       <div v-if="stage === 'sealed' || stage === 'tearing'" class="reveal-stage">
         <BoosterPack :tearing="stage === 'tearing'" @open="openPack" />
-        <p class="reveal-stage__hint">Touche le paquet pour l'ouvrir</p>
       </div>
 
-      <template v-else>
-        <p v-if="stage === 'revealing' && nextIndex >= 0" class="reveal-stage__hint">
-          Touche la carte suivante pour la retourner ({{ nextIndex + 1 }}/{{ cards.length }})
-        </p>
-        <ol class="card-grid reveal-grid">
-          <li
-            v-for="(card, index) in cards"
-            :key="card.id"
-            class="reveal-slot"
-            :class="[
-              `reveal-slot--${card.rarity}`,
-              {
-                'is-flipped': flipped[index],
-                'is-next': stage === 'revealing' && index === nextIndex,
-                'is-burst': burst === index,
-              },
-            ]"
-            :style="{ '--i': index }"
-          >
-            <button
-              v-if="!flipped[index]"
-              type="button"
-              class="reveal-slot__hit"
-              :disabled="index !== nextIndex"
-              :aria-label="`Retourner la carte ${index + 1}`"
-              @click="flip(index)"
-            />
-            <div class="flip">
-              <div class="flip__face flip__back"><CardBack /></div>
-              <div class="flip__face flip__front">
-                <CardItem :card="card" :link="stage === 'done'" />
-              </div>
-            </div>
-            <span v-if="burst === index" class="reveal-slot__label" aria-hidden="true">
-              {{ rarityLabels[card.rarity] }} !
-            </span>
-            <p v-if="stage === 'done' && card.copies === 1" class="card-grid__new">
-              Nouvelle carte
-            </p>
-          </li>
-        </ol>
-      </template>
+      <RevealPile
+        v-else-if="stage === 'revealing'"
+        :cards="cards"
+        @announce="(message) => (announcement = message)"
+        @done="finish"
+      />
+
+      <ol v-else class="card-grid reveal-grid">
+        <li
+          v-for="(card, index) in cards"
+          :key="card.id"
+          class="reveal-slot"
+          :style="{ '--i': index }"
+        >
+          <CardItem :card="card" />
+          <p v-if="card.copies === 1" class="card-grid__new">Nouvelle carte</p>
+        </li>
+      </ol>
     </Page>
   </AppLayout>
 </template>
