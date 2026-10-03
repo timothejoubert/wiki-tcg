@@ -2,6 +2,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 import type { NextFn } from '@adonisjs/core/types/http'
 import UserTransformer from '#transformers/user_transformer'
 import TradeService from '#services/trade_service'
+import NotificationService from '#services/notification_service'
 import BaseInertiaMiddleware from '@adonisjs/inertia/inertia_middleware'
 
 export default class InertiaMiddleware extends BaseInertiaMiddleware {
@@ -23,6 +24,9 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
       }) ?? 'dark'
 
     const pendingTrades = auth?.user ? await new TradeService().pendingReceivedCount(auth.user) : 0
+    const unreadNotifications = auth?.user
+      ? await new NotificationService().unreadCount(auth.user)
+      : 0
 
     /**
      * Data shared with all Inertia pages. Make sure you are using
@@ -32,6 +36,7 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
       errors: ctx.inertia.always(this.getValidationErrors(ctx)),
       user: ctx.inertia.always(auth?.user ? UserTransformer.transform(auth.user) : undefined),
       pendingTrades: ctx.inertia.always(pendingTrades),
+      unreadNotifications: ctx.inertia.always(unreadNotifications),
       preferences: ctx.inertia.always({ theme }),
     }
   }

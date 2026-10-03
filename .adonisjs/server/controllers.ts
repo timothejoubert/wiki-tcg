@@ -11,6 +11,7 @@ export const controllers = {
   Collection: () => import('#controllers/collection_controller'),
   Favorites: () => import('#controllers/favorites_controller'),
   NewAccount: () => import('#controllers/new_account_controller'),
+  Notifications: () => import('#controllers/notifications_controller'),
   PasswordReset: () => import('#controllers/password_reset_controller'),
   Players: () => import('#controllers/players_controller'),
   Session: () => import('#controllers/session_controller'),

@@ -3,7 +3,7 @@ import { Form } from '@adonisjs/inertia/vue'
 import AppLayout from '~/layouts/app.vue'
 import SettingsLayout from '~/layouts/settings.vue'
 
-defineProps<{ collectionPublic: boolean }>()
+defineProps<{ collectionPublic: boolean; notifyByEmail: boolean }>()
 </script>
 
 <template>
@@ -25,6 +25,22 @@ defineProps<{ collectionPublic: boolean }>()
         <p id="collection-public-hint" class="field__hint">
           Décoché, ton profil n'affiche que ton identifiant et tu n'apparais plus dans « Ils la
           possèdent ». Les échanges restent possibles avec qui connaît ton identifiant.
+        </p>
+        <h2 class="card-tags__title">Notifications</h2>
+        <label class="field__check" for="notifyByEmail">
+          <input
+            id="notifyByEmail"
+            name="notifyByEmail"
+            type="checkbox"
+            value="1"
+            :checked="notifyByEmail"
+            aria-describedby="notify-hint"
+          />
+          <span>M'avertir aussi par email</span>
+        </label>
+        <p id="notify-hint" class="field__hint">
+          Surenchères, enchères gagnées ou vendues, propositions d'échange. Les notifications
+          restent toujours visibles dans le jeu.
         </p>
         <button type="submit" class="btn btn--primary btn--sm" :disabled="processing">
           Enregistrer

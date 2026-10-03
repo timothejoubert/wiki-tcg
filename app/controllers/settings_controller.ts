@@ -3,18 +3,23 @@ import type { HttpContext } from '@adonisjs/core/http'
 
 const settingsValidator = vine.create({
   collectionPublic: vine.boolean().optional(),
+  notifyByEmail: vine.boolean().optional(),
 })
 
 export default class SettingsController {
   async edit({ inertia, auth }: HttpContext) {
     const user = auth.getUserOrFail()
-    return inertia.render('settings', { collectionPublic: user.collectionPublic })
+    return inertia.render('settings', {
+      collectionPublic: user.collectionPublic,
+      notifyByEmail: user.notifyByEmail,
+    })
   }
 
   async update({ auth, request, response, session }: HttpContext) {
     const user = auth.getUserOrFail()
-    const { collectionPublic } = await request.validateUsing(settingsValidator)
+    const { collectionPublic, notifyByEmail } = await request.validateUsing(settingsValidator)
     user.collectionPublic = collectionPublic ?? false
+    user.notifyByEmail = notifyByEmail ?? false
     await user.save()
 
     session.flash('success', 'Réglages enregistrés.')

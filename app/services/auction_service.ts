@@ -5,10 +5,12 @@ import { Exception } from '@adonisjs/core/exceptions'
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database'
 import Auction from '#models/auction'
 import Bid from '#models/bid'
-import type User from '#models/user'
+import User from '#models/user'
 import UserCard from '#models/user_card'
 import gameConfig from '#config/game'
 import WalletService from '#services/wallet_service'
+import NotificationService from '#services/notification_service'
+import Card from '#models/card'
 
 const { auctions } = gameConfig.economy
 
@@ -65,7 +67,10 @@ export function minNextBid(auction: Pick<Auction, 'startingPrice' | 'currentPric
  */
 @inject()
 export default class AuctionService {
-  constructor(protected wallet: WalletService) {}
+  constructor(
+    protected wallet: WalletService,
+    protected notifications: NotificationService
+  ) {}
 
   /**
    * Lists the oldest free copy of a card (not already in an open auction).
@@ -138,6 +143,12 @@ export default class AuctionService {
           'auction_refund',
           refs
         )
+        const card = await Card.findOrFail(auction.cardId, { client: trx })
+        await this.notifications.notify(trx, previous, 'auction_outbid', {
+          auctionId: auction.id,
+          cardTitle: card.title,
+          amount,
+        })
       }
 
       auction.merge({ currentPrice: amount, leaderId: bidder.id, bidsCount: auction.bidsCount + 1 })
@@ -183,6 +194,11 @@ export default class AuctionService {
       if (auction.leaderId === null) {
         auction.merge({ status: 'unsold', settledAt: now })
         await auction.save()
+        const card = await Card.findOrFail(auction.cardId, { client: trx })
+        await this.notifications.notify(trx, auction.sellerId, 'auction_unsold', {
+          auctionId: auction.id,
+          cardTitle: card.title,
+        })
         return auction
       }
 
@@ -200,6 +216,15 @@ export default class AuctionService {
 
       auction.merge({ status: 'sold', settledAt: now })
       await auction.save()
+
+      const card = await Card.findOrFail(auction.cardId, { client: trx })
+      const winner = await User.findOrFail(auction.leaderId, { client: trx })
+      const data = { auctionId: auction.id, cardTitle: card.title, amount: auction.currentPrice }
+      await this.notifications.notify(trx, auction.leaderId, 'auction_won', data)
+      await this.notifications.notify(trx, auction.sellerId, 'auction_sold', {
+        ...data,
+        username: winner.username,
+      })
       return auction
     })
   }

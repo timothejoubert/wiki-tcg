@@ -26,6 +26,7 @@ declare module '@adonisjs/inertia/types' {
     'legal/privacy': ExtractProps<(typeof import('../../inertia/pages/legal/privacy.vue'))['default']>
     'legal/rules': ExtractProps<(typeof import('../../inertia/pages/legal/rules.vue'))['default']>
     'legal/terms': ExtractProps<(typeof import('../../inertia/pages/legal/terms.vue'))['default']>
+    'notifications': ExtractProps<(typeof import('../../inertia/pages/notifications.vue'))['default']>
     'players/index': ExtractProps<(typeof import('../../inertia/pages/players/index.vue'))['default']>
     'players/show': ExtractProps<(typeof import('../../inertia/pages/players/show.vue'))['default']>
     'settings': ExtractProps<(typeof import('../../inertia/pages/settings.vue'))['default']>

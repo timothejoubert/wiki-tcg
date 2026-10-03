@@ -4,6 +4,19 @@ const gameTypes = { source: '#config/game' }
 
 export default {
   tables: {
+    notifications: {
+      columns: {
+        type: {
+          tsType: 'NotificationType',
+          imports: [{ ...gameTypes, typeImports: ['NotificationType'] }],
+          decorators: [{ name: '@column' }],
+        },
+        data: {
+          tsType: 'Record<string, string | number | null>',
+          decorators: [{ name: '@column' }],
+        },
+      },
+    },
     user_tokens: {
       columns: {
         type: {

@@ -222,6 +222,12 @@ const routes = {
     tokens: [{"old":"/trades/:id/cancel","type":0,"val":"trades","end":""},{"old":"/trades/:id/cancel","type":1,"val":"id","end":""},{"old":"/trades/:id/cancel","type":0,"val":"cancel","end":""}],
     types: placeholder as Registry['trades.cancel']['types'],
   },
+  'notifications': {
+    methods: ["GET","HEAD"],
+    pattern: '/notifications',
+    tokens: [{"old":"/notifications","type":0,"val":"notifications","end":""}],
+    types: placeholder as Registry['notifications']['types'],
+  },
   'players.index': {
     methods: ["GET","HEAD"],
     pattern: '/joueurs',

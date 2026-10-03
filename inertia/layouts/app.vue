@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {
   ArrowLeftRight,
+  Bell,
   Coins,
   Gavel,
   Library,
@@ -48,6 +49,24 @@ const page = usePage()
             class="header__user"
           >
             {{ page.props.user.username }}
+          </Link>
+          <Link
+            route="notifications"
+            class="iconbtn header__bell"
+            :aria-label="
+              page.props.unreadNotifications
+                ? `Notifications, ${page.props.unreadNotifications} non lue(s)`
+                : 'Notifications'
+            "
+          >
+            <Bell :size="16" aria-hidden="true" />
+            <span
+              v-if="page.props.unreadNotifications"
+              class="header__bell-count"
+              aria-hidden="true"
+            >
+              {{ page.props.unreadNotifications > 9 ? '9+' : page.props.unreadNotifications }}
+            </span>
           </Link>
           <Link route="settings" class="iconbtn" aria-label="Réglages">
             <Settings :size="16" aria-hidden="true" />

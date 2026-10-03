@@ -23,6 +23,17 @@ export type AuctionStatus = (typeof AUCTION_STATUSES)[number]
 export const TRADE_STATUSES = ['pending', 'accepted', 'declined', 'cancelled', 'expired'] as const
 export type TradeStatus = (typeof TRADE_STATUSES)[number]
 
+export const NOTIFICATION_TYPES = [
+  'auction_outbid',
+  'auction_won',
+  'auction_sold',
+  'auction_unsold',
+  'trade_received',
+  'trade_accepted',
+  'trade_declined',
+] as const
+export type NotificationType = (typeof NOTIFICATION_TYPES)[number]
+
 export const QUALITY_LABELS = ['featured', 'good'] as const
 export type QualityLabel = (typeof QUALITY_LABELS)[number]
 

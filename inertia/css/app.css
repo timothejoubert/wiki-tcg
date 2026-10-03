@@ -2490,3 +2490,70 @@ input {
   border-top: 1px solid var(--line);
   font-size: 13.5px;
 }
+
+/* Notifications -------------------------------------------------------- */
+
+.header__bell {
+  position: relative;
+}
+.header__bell-count {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--rarity-legendary);
+  color: var(--card-ink);
+  font-size: 10.5px;
+  font-weight: 700;
+  line-height: 17px;
+  text-align: center;
+}
+.notification-list {
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+.notification {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--card);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r);
+}
+.notification.is-unread {
+  border-color: var(--rarity-legendary);
+}
+.notification__icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--muted);
+}
+.notification__text {
+  font-size: 14px;
+}
+.notification__text:hover {
+  text-decoration: underline;
+}
+.notification__date {
+  font-size: 12.5px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .notification {
+    grid-template-columns: auto 1fr;
+  }
+  .notification__date {
+    grid-column: 2;
+  }
+}

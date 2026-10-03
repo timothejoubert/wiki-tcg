@@ -6,7 +6,7 @@
 
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
-import type { AuctionStatus, QualityLabel, Rarity, TradeStatus, WalletKind } from '#config/game'
+import type { AuctionStatus, QualityLabel, Rarity, NotificationType, TradeStatus, WalletKind } from '#config/game'
 
 export class AuctionSchema extends BaseModel {
   static $columns = ['bidsCount', 'cardId', 'createdAt', 'currentPrice', 'endsAt', 'id', 'leaderId', 'sellerId', 'settledAt', 'startingPrice', 'status', 'updatedAt', 'userCardId'] as const
@@ -122,6 +122,23 @@ export class CardSchema extends BaseModel {
   declare wikiRevisionId: number
 }
 
+export class NotificationSchema extends BaseModel {
+  static $columns = ['createdAt', 'data', 'id', 'readAt', 'type', 'userId'] as const
+  $columns = NotificationSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare data: Record<string, string | number | null>
+  @column({ isPrimary: true })
+  declare id: number
+  @column.dateTime()
+  declare readAt: DateTime | null
+  @column()
+  declare type: NotificationType
+  @column()
+  declare userId: number
+}
+
 export class RateLimitSchema extends BaseModel {
   static $columns = ['expire', 'key', 'points'] as const
   $columns = RateLimitSchema.$columns
@@ -221,7 +238,7 @@ export class UserTokenSchema extends BaseModel {
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = ['adultConfirmedAt', 'balance', 'boosterRefilledAt', 'boosterStock', 'collectionPublic', 'createdAt', 'dailyBonusClaimedOn', 'email', 'id', 'password', 'updatedAt', 'username'] as const
+  static $columns = ['adultConfirmedAt', 'balance', 'boosterRefilledAt', 'boosterStock', 'collectionPublic', 'createdAt', 'dailyBonusClaimedOn', 'email', 'id', 'notifyByEmail', 'password', 'updatedAt', 'username'] as const
   $columns = UserSchema.$columns
   @column.dateTime()
   declare adultConfirmedAt: DateTime
@@ -241,6 +258,8 @@ export class UserSchema extends BaseModel {
   declare email: string
   @column({ isPrimary: true })
   declare id: number
+  @column()
+  declare notifyByEmail: boolean
   @column({ serializeAs: null })
   declare password: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })

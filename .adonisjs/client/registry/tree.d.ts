@@ -62,6 +62,7 @@ export interface ApiDefinition {
     decline: typeof routes['trades.decline']
     cancel: typeof routes['trades.cancel']
   }
+  notifications: typeof routes['notifications']
   players: {
     index: typeof routes['players.index']
     show: typeof routes['players.show']

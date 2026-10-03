@@ -40,6 +40,7 @@ export type ScannedRoutes = {
     'trades.accept': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'trades.decline': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'trades.cancel': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'notifications': { paramsTuple?: []; params?: {} }
     'players.index': { paramsTuple?: []; params?: {} }
     'players.show': { paramsTuple: [ParamValue]; params: {'username': ParamValue} }
     'settings': { paramsTuple?: []; params?: {} }
@@ -75,6 +76,7 @@ export type ScannedRoutes = {
     'auctions.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'trades.index': { paramsTuple?: []; params?: {} }
     'trades.create': { paramsTuple?: []; params?: {} }
+    'notifications': { paramsTuple?: []; params?: {} }
     'players.index': { paramsTuple?: []; params?: {} }
     'players.show': { paramsTuple: [ParamValue]; params: {'username': ParamValue} }
     'settings': { paramsTuple?: []; params?: {} }
@@ -100,6 +102,7 @@ export type ScannedRoutes = {
     'auctions.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'trades.index': { paramsTuple?: []; params?: {} }
     'trades.create': { paramsTuple?: []; params?: {} }
+    'notifications': { paramsTuple?: []; params?: {} }
     'players.index': { paramsTuple?: []; params?: {} }
     'players.show': { paramsTuple: [ParamValue]; params: {'username': ParamValue} }
     'settings': { paramsTuple?: []; params?: {} }

@@ -7,6 +7,7 @@ import TradeItem from '#models/trade_item'
 import User from '#models/user'
 import UserCard from '#models/user_card'
 import Card from '#models/card'
+import NotificationService from '#services/notification_service'
 import gameConfig, { RARITIES } from '#config/game'
 
 const { trades } = gameConfig.economy
@@ -43,6 +44,8 @@ type Side = { ownerId: number; cardIds: number[] }
  * stands in if the picked one is gone.
  */
 export default class TradeService {
+  constructor(protected notifications = new NotificationService()) {}
+
   async propose(proposer: User, recipientUsername: string, offered: number[], requested: number[]) {
     const recipient = await User.query()
       .whereRaw('lower(username) = lower(?)', [recipientUsername])
@@ -77,6 +80,10 @@ export default class TradeService {
         { client: trx }
       )
       await trade.related('items').createMany(items)
+      await this.notifications.notify(trx, recipient.id, 'trade_received', {
+        tradeId: trade.id,
+        username: proposer.username,
+      })
       return trade
     })
   }
@@ -111,6 +118,10 @@ export default class TradeService {
 
       trade.merge({ status: 'accepted', respondedAt: now })
       await trade.save()
+      await this.notifications.notify(trx, trade.proposerId, 'trade_accepted', {
+        tradeId: trade.id,
+        username: recipient.username,
+      })
       return trade
     })
   }
@@ -215,6 +226,13 @@ export default class TradeService {
       const trade = await this.lockPending(trx, tradeId, allowed)
       trade.merge({ status, respondedAt: DateTime.now() })
       await trade.save()
+      if (status === 'declined') {
+        const recipient = await User.findOrFail(trade.recipientId, { client: trx })
+        await this.notifications.notify(trx, trade.proposerId, 'trade_declined', {
+          tradeId: trade.id,
+          username: recipient.username,
+        })
+      }
       return trade
     })
   }
