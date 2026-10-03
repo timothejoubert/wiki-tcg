@@ -2231,7 +2231,9 @@ input {
   cursor: grab;
   transform: translateX(calc(var(--dx) + var(--drag))) rotate(var(--tilt));
   transition: transform 420ms cubic-bezier(0.34, 1.56, 0.64, 1);
-  animation: pile-in 360ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  /* backwards, not both: a filled animation would keep owning transform and
+     block the swipe transitions */
+  animation: pile-in 360ms cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
 }
 .pile__top.is-dragging {
   cursor: grabbing;
