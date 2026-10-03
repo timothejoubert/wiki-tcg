@@ -43,6 +43,30 @@ export interface Registry {
       errorResponse: unknown
     }
   }
+  'legal.privacy': {
+    methods: ["GET","HEAD"]
+    pattern: '/confidentialite'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'legal.notice': {
+    methods: ["GET","HEAD"]
+    pattern: '/mentions-legales'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
   'account.confirm_email': {
     methods: ["GET","HEAD"]
     pattern: '/confirmer-email/:token'

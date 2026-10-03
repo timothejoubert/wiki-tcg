@@ -24,6 +24,18 @@ const routes = {
     tokens: [{"old":"/conditions","type":0,"val":"conditions","end":""}],
     types: placeholder as Registry['legal.terms']['types'],
   },
+  'legal.privacy': {
+    methods: ["GET","HEAD"],
+    pattern: '/confidentialite',
+    tokens: [{"old":"/confidentialite","type":0,"val":"confidentialite","end":""}],
+    types: placeholder as Registry['legal.privacy']['types'],
+  },
+  'legal.notice': {
+    methods: ["GET","HEAD"],
+    pattern: '/mentions-legales',
+    tokens: [{"old":"/mentions-legales","type":0,"val":"mentions-legales","end":""}],
+    types: placeholder as Registry['legal.notice']['types'],
+  },
   'account.confirm_email': {
     methods: ["GET","HEAD"],
     pattern: '/confirmer-email/:token',

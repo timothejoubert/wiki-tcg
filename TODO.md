@@ -22,5 +22,6 @@
 - [x] Fonctionnalité d'abandons/recyclage de carte groupé (recyclage des doublons, on garde toujours 1 exemplaire)
 - [x] Charger les typographies du design (Unbounded, Inter, JetBrains Mono), auto-hébergées via @fontsource
 - [ ] Figma : carte v5 (sans étiquette de rareté ni stats, format 5:7 comme dans l'app), puis écrans mobiles, au retour du quota MCP
-- [ ] Rédiger les conditions d'utilisation et les règles de la communauté (textes provisoires)
+- [x] Rédiger les conditions d'utilisation, les règles de la communauté, la confidentialité et les mentions légales
+- [ ] Compléter l'adresse de contact et l'hébergeur dans `inertia/lib/legal.ts` avant la mise en ligne
 - [ ] Mise en production : hébergement, Postgres (extension `unaccent`), scheduler, SMTP, variables d'environnement

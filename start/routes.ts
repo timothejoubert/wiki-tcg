@@ -15,6 +15,8 @@ import router from '@adonisjs/core/services/router'
 router.on('/').renderInertia('home', {}).as('home').use(middleware.guest())
 router.on('/regles').renderInertia('legal/rules', {}).as('legal.rules')
 router.on('/conditions').renderInertia('legal/terms', {}).as('legal.terms')
+router.on('/confidentialite').renderInertia('legal/privacy', {}).as('legal.privacy')
+router.on('/mentions-legales').renderInertia('legal/notice', {}).as('legal.notice')
 router
   .get('/confirmer-email/:token', [controllers.Account, 'confirmEmail'])
   .as('account.confirm_email')

@@ -87,7 +87,10 @@ const page = usePage()
     Contenu encyclopédique issu de Wikipédia, sous licence
     <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr" class="il" rel="license"
       >CC BY-SA 4.0</a
-    >. Wiki TCG n'est pas affilié à la Wikimedia Foundation.
+    >. Wiki TCG n'est pas affilié à la Wikimedia Foundation. ·
+    <Link route="legal.terms" class="il">Conditions</Link> ·
+    <Link route="legal.privacy" class="il">Confidentialité</Link> ·
+    <Link route="legal.notice" class="il">Mentions légales</Link>
   </footer>
   <FlashToasts />
 </template>

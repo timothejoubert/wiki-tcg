@@ -22,6 +22,8 @@ declare module '@adonisjs/inertia/types' {
     'errors/not_found': ExtractProps<(typeof import('../../inertia/pages/errors/not_found.vue'))['default']>
     'errors/server_error': ExtractProps<(typeof import('../../inertia/pages/errors/server_error.vue'))['default']>
     'home': ExtractProps<(typeof import('../../inertia/pages/home.vue'))['default']>
+    'legal/notice': ExtractProps<(typeof import('../../inertia/pages/legal/notice.vue'))['default']>
+    'legal/privacy': ExtractProps<(typeof import('../../inertia/pages/legal/privacy.vue'))['default']>
     'legal/rules': ExtractProps<(typeof import('../../inertia/pages/legal/rules.vue'))['default']>
     'legal/terms': ExtractProps<(typeof import('../../inertia/pages/legal/terms.vue'))['default']>
     'players/index': ExtractProps<(typeof import('../../inertia/pages/players/index.vue'))['default']>

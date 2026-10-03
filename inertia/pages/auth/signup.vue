@@ -80,7 +80,9 @@ import { Form, Link } from '@adonisjs/inertia/vue'
             <span>
               J'ai 18 ans ou plus et j'accepte les
               <Link route="legal.terms" class="il">conditions d'utilisation</Link> et les
-              <Link route="legal.rules" class="il">règles de la communauté</Link>.
+              <Link route="legal.rules" class="il">règles de la communauté</Link>. Mes données sont
+              traitées selon la
+              <Link route="legal.privacy" class="il">politique de confidentialité</Link>.
             </span>
           </label>
           <span v-if="errors.adult" class="field__error">{{ errors.adult }}</span>

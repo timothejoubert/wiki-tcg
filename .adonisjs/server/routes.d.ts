@@ -7,6 +7,8 @@ export type ScannedRoutes = {
     'home': { paramsTuple?: []; params?: {} }
     'legal.rules': { paramsTuple?: []; params?: {} }
     'legal.terms': { paramsTuple?: []; params?: {} }
+    'legal.privacy': { paramsTuple?: []; params?: {} }
+    'legal.notice': { paramsTuple?: []; params?: {} }
     'account.confirm_email': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'new_account.create': { paramsTuple?: []; params?: {} }
     'new_account.store': { paramsTuple?: []; params?: {} }
@@ -57,6 +59,8 @@ export type ScannedRoutes = {
     'home': { paramsTuple?: []; params?: {} }
     'legal.rules': { paramsTuple?: []; params?: {} }
     'legal.terms': { paramsTuple?: []; params?: {} }
+    'legal.privacy': { paramsTuple?: []; params?: {} }
+    'legal.notice': { paramsTuple?: []; params?: {} }
     'account.confirm_email': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'new_account.create': { paramsTuple?: []; params?: {} }
     'session.create': { paramsTuple?: []; params?: {} }
@@ -80,6 +84,8 @@ export type ScannedRoutes = {
     'home': { paramsTuple?: []; params?: {} }
     'legal.rules': { paramsTuple?: []; params?: {} }
     'legal.terms': { paramsTuple?: []; params?: {} }
+    'legal.privacy': { paramsTuple?: []; params?: {} }
+    'legal.notice': { paramsTuple?: []; params?: {} }
     'account.confirm_email': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'new_account.create': { paramsTuple?: []; params?: {} }
     'session.create': { paramsTuple?: []; params?: {} }

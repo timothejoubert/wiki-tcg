@@ -6,6 +6,8 @@ export interface ApiDefinition {
   legal: {
     rules: typeof routes['legal.rules']
     terms: typeof routes['legal.terms']
+    privacy: typeof routes['legal.privacy']
+    notice: typeof routes['legal.notice']
   }
   account: {
     confirmEmail: typeof routes['account.confirm_email']
