@@ -1,3 +1,6 @@
+import '@fontsource-variable/unbounded'
+import '@fontsource-variable/inter'
+import '@fontsource-variable/jetbrains-mono'
 import './css/app.css'
 import 'vue-sonner/style.css'
 import { client } from '~/client'

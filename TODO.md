@@ -20,7 +20,7 @@
 
 ## Déjà identifié
 - [x] Fonctionnalité d'abandons/recyclage de carte groupé (recyclage des doublons, on garde toujours 1 exemplaire)
-- [ ] Charger les typographies du design (Unbounded, Inter, JetBrains Mono)
+- [x] Charger les typographies du design (Unbounded, Inter, JetBrains Mono), auto-hébergées via @fontsource
 - [ ] Figma : carte v5 (sans étiquette de rareté ni stats, format 5:7 comme dans l'app), puis écrans mobiles, au retour du quota MCP
 - [ ] Rédiger les conditions d'utilisation et les règles de la communauté (textes provisoires)
 - [ ] Mise en production : hébergement, Postgres (extension `unaccent`), scheduler, SMTP, variables d'environnement
