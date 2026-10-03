@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "license": "UNLICENSED",
+  "packageManager": "pnpm@11.5.1",
   "engines": {
     "node": ">=24.0.0"
   },
@@ -93,11 +94,6 @@
       "./app/controllers/**/*.ts",
       "./app/middleware/*.ts"
     ]
-  },
-  "allowScripts": {
-    "@swc/core": true,
-    "esbuild": true,
-    "fsevents": true
   },
   "prettier": "@adonisjs/prettier-config"
 }

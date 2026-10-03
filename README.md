@@ -3,17 +3,17 @@
 Jeu de cartes à collectionner où chaque article de Wikipédia FR devient une carte :
 la rareté vient du nombre de lecteurs de l'article.
 
-Stack : AdonisJS 7 · Inertia + Vue 3 · PostgreSQL 16 · Lucid · Japa.
+Stack : AdonisJS 7 · Inertia + Vue 3 · PostgreSQL 16 · Lucid · Japa · pnpm.
 
 ## Démarrage
 
 ```sh
 cp .env.example .env          # puis renseigner APP_KEY (node ace generate:key) et WIKIPEDIA_USER_AGENT
 docker compose up -d --wait   # Postgres (+ base wiki_tcg_test)
-npm install
+pnpm install
 node ace migration:run
 node ace db:seed              # compte local, identifiants dans database/seeders/dev_player_seeder.ts
-npm run dev                   # http://localhost:3333
+pnpm dev                   # http://localhost:3333
 ```
 
 `WIKIPEDIA_USER_AGENT` doit identifier l'app et un contact
@@ -23,8 +23,8 @@ npm run dev                   # http://localhost:3333
 
 | Commande | Rôle |
 | --- | --- |
-| `npm test` | Tests unitaires et fonctionnels (Wikipédia est simulé) |
-| `npm run typecheck` / `npm run lint` | Vérifications TypeScript et ESLint |
+| `pnpm test` | Tests unitaires et fonctionnels (Wikipédia est simulé) |
+| `pnpm typecheck` / `pnpm lint` | Vérifications TypeScript et ESLint |
 | `node ace cards:calibrate --samples=500` | Répartition des raretés sur un échantillon réel |
 | `node ace cards:calibrate --boosters=2000` | Simule des ouvertures sur le catalogue, à comparer aux taux de drop |
 | `node ace cards:harvest --top` / `--random=30` | Ajoute des cartes Rare et mieux au catalogue |
